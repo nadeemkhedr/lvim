@@ -18,4 +18,12 @@ M.work_studio_lib = function()
   builtin.find_files { cwd = "~/work/screencastify/castify/lib/studio" }
 end
 
+M.work_studio_deployment_search = function()
+  builtin.live_grep { cwd = "~/work/screencastify/castify/deployments/client/studio" }
+end
+
+M.work_studio_lib_search = function()
+  builtin.live_grep { cwd = "~/work/screencastify/castify/lib/studio" }
+end
+
 return M

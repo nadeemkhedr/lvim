@@ -110,6 +110,8 @@ M.config = function()
     name = "+Work",
     t = { "<cmd>lua require('user.telescope').work_studio_lib()<cr>", "Studio lib files" },
     s = { "<cmd>lua require('user.telescope').work_studio_deployment()<cr>", "Studio deployment files" },
+    p = { "<cmd>lua require('user.telescope').work_studio_lib_search()<cr>", "Studio lib files (Search)" },
+    f = { "<cmd>lua require('user.telescope').work_studio_deployment_search()<cr>", "Studio deployment files (Search)" },
   }
 end
 
