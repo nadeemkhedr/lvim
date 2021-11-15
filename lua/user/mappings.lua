@@ -96,8 +96,7 @@ M.config = function()
     name = "+Open",
     e = { "<cmd>lua require('user.utils').open_env_file()<cr>", "open env file" },
     c = { "<cmd>e ~/configfiles/README.md<cr>", "open configfiles" },
-    z = { "<cmd>e ~/.config/zsh/zshrc<cr>", "open zshrc" },
-    v = { "<cmd>e ~/.config/lvim/lv-config.lua<cr>", "open lv-config" },
+    v = { "<cmd>e ~/.config/lvim/config.lua<cr>", "open lvim config" },
     s = { "<cmd>e ~/.local/share/lunarvim/lvim/init.lua<cr>", "open lvim core project" },
   }
   lvim.builtin.which_key.mappings["t"] = {
