@@ -60,7 +60,6 @@ lvim.plugins = {
     config = function()
       require("user/lsp_signature").config()
     end,
-    event = "InsertEnter",
   },
   -- Match text with % like if/else
   {
@@ -84,7 +83,6 @@ lvim.plugins = {
   -- auto close/rename html tags
   {
     "windwp/nvim-ts-autotag",
-    event = "InsertEnter",
   },
   -- really nice quickfix with preview
   {
@@ -183,14 +181,6 @@ lvim.plugins = {
   },
   {
     "jose-elias-alvarez/nvim-lsp-ts-utils",
-    ft = {
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "typescript",
-      "typescriptreact",
-      "typescript.tsx",
-    },
     before = "williamboman/nvim-lsp-installer",
   },
   -- Running unit tests

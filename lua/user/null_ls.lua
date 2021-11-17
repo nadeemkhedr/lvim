@@ -12,7 +12,7 @@ M.config = function()
     save_after_format = false,
     sources = {
       nls.builtins.formatting.prettierd, -- prettier
-      nls.builtins.diagnostics.eslint_d, -- daemon eslint
+      -- nls.builtins.diagnostics.eslint_d, -- daemon eslint
       nls.builtins.formatting.stylua, -- lua format
       nls.builtins.diagnostics.luacheck, -- lua lint
       nls.builtins.diagnostics.shellcheck, -- shell lint
