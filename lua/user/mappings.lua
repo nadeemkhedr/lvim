@@ -1,5 +1,21 @@
 local M = {}
 
+M.toggle_qf = function()
+  local qf_open = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win["quickfix"] == 1 then
+      qf_open = true
+    end
+  end
+  if qf_open == true then
+    vim.cmd "cclose"
+    return
+  end
+  if not vim.tbl_isempty(vim.fn.getqflist()) then
+    vim.cmd "copen"
+  end
+end
+
 M.config = function()
   -- keymappings
   lvim.leader = "space"
@@ -24,11 +40,11 @@ M.config = function()
   vim.api.nvim_set_keymap("v", ":", ";", { noremap = true })
 
   -- remove alt j/k, doesn't play well in macos, when pressing esc-j/k quickly they do the mapping
-  lvim.keys.normal_mode["<A-j>"] = nil
-  lvim.keys.normal_mode["<A-k>"] = nil
+  lvim.keys.normal_mode["<A-j>"] = false
+  lvim.keys.normal_mode["<A-k>"] = false
 
-  lvim.keys.insert_mode["<A-j>"] = nil
-  lvim.keys.insert_mode["<A-k>"] = nil
+  lvim.keys.insert_mode["<A-j>"] = false
+  lvim.keys.insert_mode["<A-k>"] = false
 
   -- splitv go to def
   lvim.keys.normal_mode["gv"] = "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>"

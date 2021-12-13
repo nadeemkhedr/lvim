@@ -24,7 +24,7 @@ lvim.builtin.project.patterns = { ".git", ".svn" }
 lvim.builtin.lualine.sections.lualine_b = { "filename" }
 
 -- Builtin
-lvim.builtin.nvimtree.hide_dotfiles = 0
+-- lvim.builtin.nvimtree.hide_dotfiles = 0
 lvim.builtin.nvimtree.setup.view.width = 60
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
@@ -40,8 +40,8 @@ lvim.builtin.telescope.defaults.mappings = {
 
 -- Language Specific
 -- =========================================
-local custom_servers = { "dockerls", "tsserver", "jsonls", "gopls" }
-vim.list_extend(lvim.lsp.override, custom_servers)
+-- local custom_servers = { "dockerls", "tsserver", "jsonls", "gopls" }
+-- vim.list_extend(lvim.lsp.override, custom_servers)
 require("user.null_ls").config()
 
 -- Additional Plugins
@@ -85,10 +85,10 @@ lvim.plugins = {
     "windwp/nvim-ts-autotag",
   },
   -- really nice quickfix with preview
-  {
-    "kevinhwang91/nvim-bqf",
-    event = "BufRead",
-  },
+  -- {
+  -- "kevinhwang91/nvim-bqf",
+  -- event = "BufRead",
+  -- },
   {
     "sindrets/diffview.nvim",
     opt = true,
@@ -113,11 +113,6 @@ lvim.plugins = {
       require("trouble").setup()
     end,
     cmd = { "Trouble", "TroubleToggle" },
-  },
-  -- Show outline of all the symbols in the sidebar
-  {
-    "simrat39/symbols-outline.nvim",
-    cmd = "SymbolsOutline",
   },
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -179,10 +174,10 @@ lvim.plugins = {
     ft = "lua",
     before = "williamboman/nvim-lsp-installer",
   },
-  {
-    "jose-elias-alvarez/nvim-lsp-ts-utils",
-    before = "williamboman/nvim-lsp-installer",
-  },
+  -- {
+  --   "jose-elias-alvarez/nvim-lsp-ts-utils",
+  --   before = "williamboman/nvim-lsp-installer",
+  -- },
   -- Running unit tests
   {
     "vim-test/vim-test",
@@ -196,20 +191,6 @@ lvim.plugins = {
         ]]
       vim.g["test#strategy"] = "toggleterm"
     end,
-  },
-  {
-    "AckslD/nvim-neoclip.lua",
-    config = function()
-      require("neoclip").setup {
-        enable_persistant_history = true,
-        db_path = vim.fn.stdpath "data" .. "/neoclip.sqlite3",
-        keys = {
-          i = { select = "<c-p>", paste = "<CR>", paste_behind = "<c-k>" },
-          n = { select = "p", paste = "<CR>", paste_behind = "P" },
-        },
-      }
-    end,
-    requires = { "tami5/sqlite.lua", module = "sqlite" },
   },
   {
     "ThePrimeagen/harpoon",
