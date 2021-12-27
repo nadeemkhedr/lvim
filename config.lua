@@ -38,6 +38,10 @@ lvim.builtin.telescope.defaults.mappings = {
   },
 }
 
+vim.cmd [[
+  autocmd FileType harpoon setlocal wrap
+]]
+
 -- Language Specific
 -- =========================================
 -- local custom_servers = { "dockerls", "tsserver", "jsonls", "gopls" }
@@ -198,6 +202,11 @@ lvim.plugins = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-lua/popup.nvim" },
     },
+    config = function()
+      require("harpoon").setup {
+        menu = { width = 100, height = 10 },
+      }
+    end,
   },
   -- jsonnet file support
   { "google/vim-jsonnet" },
