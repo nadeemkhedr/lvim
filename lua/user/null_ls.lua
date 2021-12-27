@@ -13,14 +13,16 @@ M.config = function()
   end
 
   -- you can either config null-ls itself
-  nls.config {
+  nls.setup {
     debounce = 150,
     save_after_format = false,
     sources = {
       nls_helpers.conditional(function(utils) -- eslint deamon when there is .eslintrc.js
-        return utils.root_has_file ".eslintrc.js" and nls.builtins.formatting.eslint_d.with {
-          prefer_local = "node_modules/.bin",
-        } or nls.builtins.formatting.prettierd.with { prefer_local = "node_modules/.bin" }
+        return utils.root_has_file ".eslintrc.js"
+            and nls.builtins.formatting.eslint_d.with {
+              prefer_local = "node_modules/.bin",
+            }
+          or nls.builtins.formatting.prettierd.with { prefer_local = "node_modules/.bin" }
       end),
       nls.builtins.diagnostics.eslint_d.with { prefer_local = "node_modules/.bin" }, -- eslint deamon
       nls.builtins.code_actions.eslint_d.with { prefer_local = "node_modules/.bin" }, -- eslint code actions
