@@ -98,8 +98,8 @@ M.config = function()
   lvim.builtin.which_key.mappings.g.l = { "<cmd>GitBlameToggle<cr>", "Git blame" }
   lvim.builtin.which_key.mappings.g.d = { "<cmd>DiffviewOpen<cr>", "Diffview HEAD" }
   lvim.builtin.which_key.mappings.g.h = { "<cmd>DiffviewFileHistory<cr>", "Diffview file history" }
-  lvim.builtin.which_key.mappings.l.d = { "<cmd>TroubleToggle<cr>", "Diagnostics" }
-  lvim.builtin.which_key.mappings.l.R = { "<cmd>TroubleToggle lsp_references<cr>", "References" }
+  -- lvim.builtin.which_key.mappings.l.d = { "<cmd>TroubleToggle<cr>", "Diagnostics" }
+  -- lvim.builtin.which_key.mappings.l.R = { "<cmd>TroubleToggle lsp_references<cr>", "References" }
   lvim.builtin.which_key.mappings.l.o = { "<cmd>SymbolsOutline<cr>", "Outline" }
   lvim.builtin.which_key.mappings.l.r = { "<cmd>lua require('renamer').rename()<cr>", "Rename" }
   lvim.builtin.which_key.mappings["r"] = {
@@ -127,7 +127,10 @@ M.config = function()
     t = { "<cmd>lua require('user.telescope').work_studio_lib()<cr>", "Studio lib files" },
     s = { "<cmd>lua require('user.telescope').work_studio_deployment()<cr>", "Studio deployment files" },
     p = { "<cmd>lua require('user.telescope').work_studio_lib_search()<cr>", "Studio lib files (Search)" },
-    f = { "<cmd>lua require('user.telescope').work_studio_deployment_search()<cr>", "Studio deployment files (Search)" },
+    f = {
+      "<cmd>lua require('user.telescope').work_studio_deployment_search()<cr>",
+      "Studio deployment files (Search)",
+    },
   }
 end
 

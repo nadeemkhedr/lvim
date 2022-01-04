@@ -109,15 +109,6 @@ lvim.plugins = {
       }
     end,
   },
-  -- run diagnostics summary
-  {
-    "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup()
-    end,
-    cmd = { "Trouble", "TroubleToggle" },
-  },
   {
     "lukas-reineke/indent-blankline.nvim",
     setup = function()
@@ -172,11 +163,6 @@ lvim.plugins = {
         css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
       })
     end,
-  },
-  {
-    "folke/lua-dev.nvim",
-    ft = "lua",
-    before = "williamboman/nvim-lsp-installer",
   },
   -- {
   --   "jose-elias-alvarez/nvim-lsp-ts-utils",
