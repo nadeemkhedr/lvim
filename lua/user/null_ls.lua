@@ -1,5 +1,4 @@
 local M = {}
-local nls_helpers = require "null-ls.helpers"
 
 M.config = function()
   -- NOTE: By default, all null-ls providers are checked on startup.
@@ -17,16 +16,30 @@ M.config = function()
     debounce = 150,
     save_after_format = false,
     sources = {
-      nls_helpers.conditional(function(utils) -- eslint deamon when there is .eslintrc.js
-        return utils.root_has_file ".eslintrc.js"
-            and nls.builtins.formatting.eslint_d.with {
-              prefer_local = "node_modules/.bin",
-            }
-          or nls.builtins.formatting.prettierd.with { prefer_local = "node_modules/.bin" }
-      end),
-      nls.builtins.diagnostics.eslint_d.with { prefer_local = "node_modules/.bin" }, -- eslint deamon
-      nls.builtins.code_actions.eslint_d.with { prefer_local = "node_modules/.bin" }, -- eslint code actions
-
+      nls.builtins.formatting.prettierd.with {
+        condition = function(utils)
+          return not utils.root_has_file { ".eslintrc", ".eslintrc.js" }
+        end,
+        prefer_local = "node_modules/.bin",
+      },
+      nls.builtins.formatting.eslint_d.with {
+        condition = function(utils)
+          return utils.root_has_file { ".eslintrc", ".eslintrc.js" }
+        end,
+        prefer_local = "node_modules/.bin",
+      },
+      nls.builtins.diagnostics.eslint_d.with {
+        condition = function(utils)
+          return utils.root_has_file { ".eslintrc", ".eslintrc.js" }
+        end,
+        prefer_local = "node_modules/.bin",
+      },
+      nls.builtins.code_actions.eslint_d.with {
+        condition = function(utils)
+          return utils.root_has_file { ".eslintrc", ".eslintrc.js" }
+        end,
+        prefer_local = "node_modules/.bin",
+      },
       nls.builtins.formatting.stylua, -- lua format
       nls.builtins.diagnostics.luacheck, -- lua lint
 
