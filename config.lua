@@ -27,6 +27,7 @@ lvim.builtin.lualine.sections.lualine_b = { "filename" }
 -- lvim.builtin.nvimtree.hide_dotfiles = 0
 lvim.builtin.nvimtree.setup.view.width = 60
 lvim.builtin.dashboard.active = true
+
 lvim.builtin.terminal.active = true
 lvim.builtin.dap.active = true
 lvim.builtin.telescope.defaults.path_display = {}
@@ -139,7 +140,7 @@ lvim.plugins = {
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
     config = function()
-      require("todo-comments").setup()
+      require("user.todo_comments").config()
     end,
     event = "BufRead",
   },
@@ -218,6 +219,7 @@ lvim.plugins = {
       require("renamer").setup()
     end,
   },
+  -- a different bufferline, need to disable default
   {
     "akinsho/bufferline.nvim",
     config = function()
@@ -225,6 +227,53 @@ lvim.plugins = {
     end,
     requires = "nvim-web-devicons",
   },
+  -- add bulb if there are code actions available on the line
+  {
+    "kosayoda/nvim-lightbulb",
+    config = function()
+      vim.fn.sign_define(
+        "LightBulbSign",
+        { text = require("user.lsp_icons").icons.code_action, texthl = "DiagnosticInfo" }
+      )
+    end,
+    event = "BufRead",
+    ft = { "rust", "go", "typescript", "typescriptreact" },
+  },
+
+  -- add log hilights
+  { "mtdl9/vim-log-highlighting", ft = { "text", "log" } },
+
+  -- much faster than default hilight
+  {
+    "nathom/filetype.nvim",
+    config = function()
+      require("filetype").setup {
+        overrides = {
+          literal = {
+            ["kitty.conf"] = "kitty",
+            [".gitignore"] = "conf",
+          },
+          complex = {
+            [".clang*"] = "yaml",
+          },
+          extensions = {
+            tf = "terraform",
+            tfvars = "terraform",
+            tfstate = "json",
+          },
+        },
+      }
+    end,
+  },
+
+  {
+    "sidebar-nvim/sidebar.nvim",
+    cmd = "SidebarNvimToggle",
+    config = function()
+      require("user.sidebar").config()
+    end,
+  },
+
   -- {
   --   "beauwilliams/focus.nvim",
   --   config = function()

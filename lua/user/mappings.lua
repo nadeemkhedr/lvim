@@ -132,6 +132,8 @@ M.config = function()
       "Studio deployment files (Search)",
     },
   }
+
+  lvim.keys.normal_mode["E"] = ":SidebarNvimToggle<cr>"
 end
 
 return M
