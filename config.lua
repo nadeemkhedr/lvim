@@ -26,16 +26,17 @@ lvim.builtin.lualine.sections.lualine_b = { "filename" }
 -- Builtin
 -- lvim.builtin.nvimtree.hide_dotfiles = 0
 lvim.builtin.nvimtree.setup.view.width = 60
-lvim.builtin.dashboard.active = true
+vim.g.nvim_tree_indent_markers = 1
+lvim.builtin.alpha.active = true
 
 lvim.builtin.terminal.active = true
 lvim.builtin.dap.active = true
-lvim.builtin.telescope.defaults.path_display = {}
-lvim.builtin.bufferline.active = false
+-- lvim.builtin.telescope.defaults.path_display = {}
 
 lvim.builtin.telescope.defaults.mappings = {
   i = {
     ["<esc>"] = require("telescope.actions").close,
+    ["<tab>"] = require("telescope.actions.layout").toggle_preview,
   },
 }
 
@@ -48,6 +49,8 @@ vim.cmd [[
 -- local custom_servers = { "dockerls", "tsserver", "jsonls", "gopls" }
 -- vim.list_extend(lvim.lsp.override, custom_servers)
 require("user.null_ls").config()
+
+require("user.builtin").config()
 
 -- Additional Plugins
 lvim.plugins = {
@@ -198,8 +201,6 @@ lvim.plugins = {
   -- jsonnet file support
   { "google/vim-jsonnet" },
 
-  -- json schema stores
-  { "b0o/schemastore.nvim" },
   {
     "caenrique/nvim-maximize-window-toggle",
     cmd = "ToggleOnly",
@@ -218,14 +219,6 @@ lvim.plugins = {
     config = function()
       require("renamer").setup()
     end,
-  },
-  -- a different bufferline, need to disable default
-  {
-    "akinsho/bufferline.nvim",
-    config = function()
-      require("user.bufferline").config()
-    end,
-    requires = "nvim-web-devicons",
   },
   -- add bulb if there are code actions available on the line
   {
@@ -255,11 +248,16 @@ lvim.plugins = {
           },
           complex = {
             [".clang*"] = "yaml",
+            [".*%.env.*"] = "sh",
+            [".*ignore"] = "conf",
           },
           extensions = {
             tf = "terraform",
             tfvars = "terraform",
             tfstate = "json",
+            eslintrc = "json",
+            prettierrc = "json",
+            mdx = "markdown",
           },
         },
       }

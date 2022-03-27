@@ -76,8 +76,6 @@ M.config = function()
   -- Move packer keys to 'P', and update 'p' to paste from clipboard
   lvim.builtin.which_key.mappings["P"] = lvim.builtin.which_key.mappings["p"]
   lvim.builtin.which_key.mappings["p"] = { '"+p', "paste from clipboard" }
-  -- overwrite the find files command to search for git then files
-  lvim.builtin.which_key.mappings["f"] = { "<cmd>lua require('user.telescope').project_files()<cr>", "Find Git/File" }
 
   local function clip()
     require("telescope").extensions.neoclip.default(require("telescope.themes").get_dropdown())
@@ -124,13 +122,10 @@ M.config = function()
 
   lvim.builtin.which_key.mappings["n"] = {
     name = "+Work",
-    t = { "<cmd>lua require('user.telescope').work_studio_lib()<cr>", "Studio lib files" },
-    s = { "<cmd>lua require('user.telescope').work_studio_deployment()<cr>", "Studio deployment files" },
-    p = { "<cmd>lua require('user.telescope').work_studio_lib_search()<cr>", "Studio lib files (Search)" },
-    f = {
-      "<cmd>lua require('user.telescope').work_studio_deployment_search()<cr>",
-      "Studio deployment files (Search)",
-    },
+    t = { "<cmd>lua require('user.telescope').work_studio_fe()<cr>", "FE files" },
+    p = { "<cmd>lua require('user.telescope').work_studio_fe_search()<cr>", "FE files (Search)" },
+    s = { "<cmd>lua require('user.telescope').work_studio_be()<cr>", "BE files" },
+    f = { "<cmd>lua require('user.telescope').work_studio_be_search()<cr>", "BE files (Search)" },
   }
 
   lvim.keys.normal_mode["E"] = ":SidebarNvimToggle<cr>"
