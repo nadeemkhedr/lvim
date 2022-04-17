@@ -3,7 +3,7 @@ lvim.transparent_window = false
 lvim.format_on_save = true
 lvim.lint_on_save = true
 lvim.leader = "space"
-lvim.colorscheme = "onedarker"
+lvim.colorscheme = "pablo"
 
 -- Default Options
 vim.opt.clipboard = ""
@@ -16,17 +16,27 @@ lvim.lsp.diagnostics.virtual_text = true -- "gl" to show diagnostics for each er
 lvim.lsp.automatic_servers_installation = false
 
 -- Treesitter
-lvim.builtin.treesitter.ensure_installed = "maintained"
-lvim.builtin.treesitter.ignore_install = { "haskell" }
+local languages = vim.tbl_flatten {
+  { "bash", "c", "c_sharp", "cmake", "comment", "cpp", "css", "d", "dart" },
+  { "dockerfile", "elixir", "elm", "erlang", "fennel", "fish", "go" },
+  { "gomod", "graphql", "hcl", "help", "html", "java", "javascript", "jsdoc" },
+  { "json", "jsonc", "julia", "kotlin", "latex", "ledger", "lua", "make" },
+  { "markdown", "nix", "ocaml", "perl", "php", "python", "query", "r" },
+  { "regex", "rego", "ruby", "rust", "scala", "scss", "solidity", "swift" },
+  { "teal", "toml", "tsx", "typescript", "vim", "vue", "yaml", "zig" },
+}
+lvim.builtin.treesitter.ensure_installed = languages
+
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.project.patterns = { ".git", ".svn" }
 lvim.builtin.lualine.sections.lualine_b = { "filename" }
+lvim.builtin.notify.active = true
 
 -- Builtin
 -- lvim.builtin.nvimtree.hide_dotfiles = 0
 lvim.builtin.nvimtree.setup.view.width = 60
-vim.g.nvim_tree_indent_markers = 1
+-- vim.g.nvim_tree_indent_markers = 1
 lvim.builtin.alpha.active = true
 
 lvim.builtin.terminal.active = true
@@ -54,14 +64,54 @@ require("user.builtin").config()
 
 -- Additional Plugins
 lvim.plugins = {
-  { "lunarvim/colorschemes" },
-  { "tpope/vim-surround" },
   {
-    "folke/tokyonight.nvim",
+    "rose-pine/neovim",
+    as = "rose-pine",
     config = function()
-      vim.g.tokyonight_style = "night"
+      require("user.theme").rose_pine()
+      vim.cmd [[colorscheme rose-pine]]
+    end,
+    cond = function()
+      local _time = os.date "*t"
+      return (_time.hour >= 1 and _time.hour < 9)
     end,
   },
+  {
+    "abzcoding/tokyonight.nvim",
+    branch = "feat/local",
+    config = function()
+      require("user.theme").tokyonight()
+      vim.cmd [[colorscheme tokyonight]]
+    end,
+    cond = function()
+      local _time = os.date "*t"
+      return _time.hour >= 9 and _time.hour < 17
+    end,
+  },
+  {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      require("user.theme").catppuccin()
+      vim.cmd [[colorscheme catppuccin]]
+    end,
+    cond = function()
+      local _time = os.date "*t"
+      return (_time.hour >= 17 and _time.hour < 21)
+    end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      require("user.theme").kanagawa()
+      vim.cmd [[colorscheme kanagawa]]
+    end,
+    cond = function()
+      local _time = os.date "*t"
+      return (_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1)
+    end,
+  },
+  { "tpope/vim-surround" },
   -- Show method signature when entering text
   {
     "ray-x/lsp_signature.nvim",
@@ -175,9 +225,9 @@ lvim.plugins = {
   -- Running unit tests
   {
     "vim-test/vim-test",
-    cmd = { "TestNearest", "TestFile", "TestSuite", "TestLast", "TestVisit" },
     config = function()
       vim.cmd [[
+          let test#javascript#runner = 'nx'
           function! ToggleTermStrategy(cmd) abort
             call luaeval("require('toggleterm').exec(_A[1])", [a:cmd])
           endfunction
