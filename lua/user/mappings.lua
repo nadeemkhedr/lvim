@@ -48,11 +48,8 @@ M.config = function()
 
   -- splitv go to def
   lvim.keys.normal_mode["gv"] = "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>"
+  lvim.keys.visual_mode["ga"] = "<esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>"
 
-  lvim.lsp.buffer_mappings.normal_mode["ga"] = {
-    "<cmd>lua require('user.telescope').code_actions()<CR>",
-    "Code Action",
-  }
   lvim.lsp.buffer_mappings.normal_mode["gI"] = {
     "<cmd>lua require('user.telescope').lsp_implementations()<CR>",
     "Goto Implementation",
@@ -81,6 +78,11 @@ M.config = function()
     ["<leader>x"] = { "<cmd>close<cr>", "close pane" },
     ["<leader>z"] = { "<cmd>ToggleOnly<cr>", "Toggle only pane" },
   }
+
+  if lvim.builtin.dap.active then
+    lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
+    lvim.builtin.which_key.mappings["dU"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" }
+  end
 
   -- Move packer keys to 'P', and update 'p' to paste from clipboard
   lvim.builtin.which_key.mappings["P"] = lvim.builtin.which_key.mappings["p"]

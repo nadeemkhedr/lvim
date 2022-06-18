@@ -34,21 +34,23 @@ lvim.builtin.lualine.sections.lualine_b = { "filename" }
 lvim.builtin.notify.active = true
 
 -- Builtin
--- lvim.builtin.nvimtree.hide_dotfiles = 0
-lvim.builtin.nvimtree.setup.view.width = 60
--- vim.g.nvim_tree_indent_markers = 1
 lvim.builtin.alpha.active = true
-
 lvim.builtin.terminal.active = true
 lvim.builtin.dap.active = true
--- lvim.builtin.telescope.defaults.path_display = {}
 
+-- lvim.builtin.telescope.defaults.path_display = {}
 lvim.builtin.telescope.defaults.mappings = {
   i = {
     ["<esc>"] = require("telescope.actions").close,
     ["<tab>"] = require("telescope.actions.layout").toggle_preview,
   },
 }
+
+-- Debugging
+-- =========================================
+if lvim.builtin.dap.active then
+  require("user.dap").config()
+end
 
 vim.cmd [[
   autocmd FileType harpoon setlocal wrap
@@ -319,6 +321,24 @@ lvim.plugins = {
     cmd = "SidebarNvimToggle",
     config = function()
       require("user.sidebar").config()
+    end,
+  },
+  -- better dap UI
+  {
+    "rcarriga/nvim-dap-ui",
+    config = function()
+      require("dapui").setup()
+    end,
+    ft = { "python", "rust", "go" },
+    event = "BufReadPost",
+    requires = { "mfussenegger/nvim-dap" },
+    disable = not lvim.builtin.dap.active,
+  },
+  {
+    "ruifm/gitlinker.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("gitlinker").setup()
     end,
   },
 

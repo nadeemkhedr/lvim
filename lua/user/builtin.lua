@@ -1,6 +1,23 @@
 local M = {}
 M.config = function()
   local kind = require "user.lsp_icons"
+
+  -- NvimTree
+  -- =========================================
+  -- lvim.builtin.nvimtree.hide_dotfiles = 0
+  -- vim.g.nvim_tree_indent_markers = 1
+  lvim.builtin.nvimtree.setup.view.width = 60
+  lvim.builtin.nvimtree.setup.diagnostics = {
+    enable = true,
+    icons = {
+      hint = kind.icons.hint,
+      info = kind.icons.info,
+      warning = kind.icons.warn,
+      error = kind.icons.error,
+    },
+  }
+  lvim.builtin.nvimtree.setup.renderer.icons.glyphs = kind.nvim_tree_icons
+
   -- Bufferline
   -- =========================================
   local List = require "plenary.collections.py_list"
