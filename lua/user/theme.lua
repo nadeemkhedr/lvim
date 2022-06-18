@@ -14,7 +14,7 @@ M.tokyonight = function()
   }
   vim.g.tokyonight_cterm_colors = false
   vim.g.tokyonight_terminal_colors = true
-  vim.g.tokyonight_italic_comments = true
+  vim.g.tokyonight_italic_comments = false
   vim.g.tokyonight_italic_keywords = true
   vim.g.tokyonight_italic_functions = false
   vim.g.tokyonight_italic_variables = false
@@ -34,12 +34,12 @@ end
 M.rose_pine = function()
   require("rose-pine").setup {
     ---@usage 'main'|'moon'
-    dark_variant = "moon",
+    dark_variant = "main",
     bold_vert_split = false,
     dim_nc_background = lvim.builtin.global_statusline,
     disable_background = lvim.transparent_window,
     disable_float_background = true,
-    disable_italics = false,
+    disable_italics = true,
     ---@usage string hex value or named color from rosepinetheme.com/palette
     groups = {
       border = "highlight_med",
@@ -60,8 +60,9 @@ M.rose_pine = function()
         h5 = "pine",
         h6 = "foam",
       },
-      -- or set all headings at once
-      -- headings = 'subtle'
+    },
+    highlight_groups = {
+      Boolean = { fg = "love" },
     },
   }
 end
@@ -73,57 +74,16 @@ M.catppuccin = function()
     term_colors = false,
     styles = {
       comments = "NONE",
-      functions = "italic",
-      keywords = "NONE",
-      strings = "NONE",
-      variables = "NONE",
+      keywords = "italic",
     },
     integrations = {
-      treesitter = true,
-      native_lsp = {
-        enabled = true,
-        virtual_text = {
-          errors = "italic",
-          hints = "italic",
-          warnings = "italic",
-          information = "italic",
-        },
-        underlines = {
-          errors = "underline",
-          hints = "underline",
-          warnings = "underline",
-          information = "underline",
-        },
-      },
       lsp_trouble = true,
-      cmp = true,
-      lsp_saga = false,
-      gitgutter = false,
-      gitsigns = true,
-      telescope = true,
       nvimtree = {
-        enabled = true,
-        show_root = false,
         transparent_panel = lvim.transparent_window,
       },
       which_key = true,
-      indent_blankline = {
-        enabled = true,
-        colored_indent_levels = false,
-      },
-      dashboard = true,
-      neogit = false,
-      vim_sneak = false,
-      fern = false,
-      barbar = false,
-      bufferline = true,
-      markdown = true,
       lightspeed = lvim.builtin.motion_provider == "lightspeed",
-      ts_rainbow = false,
       hop = lvim.builtin.motion_provider == "hop",
-      notify = true,
-      telekasten = true,
-      symbols_outline = true,
     },
   }
 end
@@ -132,12 +92,12 @@ M.kanagawa = function()
   local kanagawa = require "kanagawa"
   kanagawa.setup {
     undercurl = true, -- enable undercurls
-    commentStyle = "italic",
-    functionStyle = "NONE",
-    keywordStyle = "italic",
-    statementStyle = "bold",
-    typeStyle = "NONE",
-    variablebuiltinStyle = "italic",
+    commentStyle = {},
+    functionStyle = {},
+    keywordStyle = { italic = true },
+    statementStyle = { italic = true },
+    typeStyle = {},
+    variablebuiltinStyle = { italic = true },
     specialReturn = true, -- special highlight for the return keyword
     specialException = true, -- special highlight for exception handling keywords
     dimInactive = lvim.builtin.global_statusline, -- dim inactive window `:h hl-NormalNC`
@@ -191,7 +151,7 @@ M.colors = {
 
   rose_pine_colors = {
     none = "NONE",
-    bg = "#1f1d2e",
+    bg = "#2a273f",
     fg = "#e0def4",
     fg_gutter = "#3b4261",
     black = "#393b44",
@@ -217,7 +177,7 @@ M.colors = {
     orange_br = "#F6A878",
     pink_br = "#DF97DB",
     comment = "#526175",
-    bg_alt = "#232136",
+    bg_alt = "#191724",
     git = {
       add = "#84Cee4",
       change = "#c4a7e7",
@@ -314,6 +274,7 @@ M.hi_colors = function()
     local ret = vim.api.nvim_get_hl_by_name(name.group, true)
     return string.format("#%06x", ret[name.property])
   end
+
   for k, v in pairs(color_binds) do
     local found, color = pcall(get_hl_by_name, v)
     if found then

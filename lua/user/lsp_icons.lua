@@ -15,18 +15,18 @@ M.cmp_kind = {
   Function = " ",
   Interface = " ",
   Keyword = " ",
-  Method = "ƒ ",
-  Module = " ",
+  Method = "",
+  Module = "",
   Operator = " ",
   Property = " ",
   Reference = "",
-  Snippet = " ", -- " "," "
+  Snippet = "", -- ""," "," "
   Struct = "פּ ",
   Text = " ",
   TypeParameter = "  ",
   Unit = "塞",
   Value = " ",
-  Variable = " ",
+  Variable = "",
 }
 
 M.icons = {
@@ -35,6 +35,7 @@ M.icons = {
   info = "",
   hint = " ",
   code_action = "",
+  code_lens_action = "",
   test = "",
   docs = "",
   clock = " ",
@@ -47,8 +48,11 @@ M.icons = {
   screen = "冷",
   dart = " ",
   config = " ",
-  git = "",
+  git = " ",
   magic = " ",
+  exit = " ",
+  repo = "",
+  term = " ",
 }
 
 M.nvim_tree_icons = {
