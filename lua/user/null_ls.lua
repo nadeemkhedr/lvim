@@ -54,6 +54,7 @@ M.config = function()
       nls.builtins.formatting.sqlformat, -- sql fmt
       nls.builtins.formatting.terraform_fmt, -- terraform fmt
       nls.builtins.diagnostics.hadolint, -- dockerlint
+      nls.builtins.formatting.cljstyle, -- clojure formatter for karabiner edn files
       nls.builtins.hover.dictionary,
     },
   }
