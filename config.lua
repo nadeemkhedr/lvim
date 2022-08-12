@@ -38,14 +38,6 @@ lvim.builtin.alpha.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.dap.active = true
 
--- lvim.builtin.telescope.defaults.path_display = {}
-lvim.builtin.telescope.defaults.mappings = {
-  i = {
-    ["<esc>"] = require("telescope.actions").close,
-    ["<tab>"] = require("telescope.actions.layout").toggle_preview,
-  },
-}
-
 -- Debugging
 -- =========================================
 if lvim.builtin.dap.active then

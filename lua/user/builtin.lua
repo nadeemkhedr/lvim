@@ -18,6 +18,16 @@ M.config = function()
   }
   lvim.builtin.nvimtree.setup.renderer.icons.glyphs = kind.nvim_tree_icons
 
+  -- Telescope
+  -- =========================================
+  lvim.builtin.telescope.defaults.path_display = {} -- display full path
+  lvim.builtin.telescope.defaults.mappings = {
+    i = {
+      ["<esc>"] = require("telescope.actions").close,
+      ["<tab>"] = require("telescope.actions.layout").toggle_preview,
+    },
+  }
+
   -- Bufferline
   -- =========================================
   local List = require "plenary.collections.py_list"
