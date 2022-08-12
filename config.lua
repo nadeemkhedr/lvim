@@ -27,10 +27,13 @@ local languages = vim.tbl_flatten {
 }
 lvim.builtin.treesitter.ensure_installed = languages
 
+lvim.builtin.global_statusline = true
+lvim.builtin.lualine.sections.lualine_b = { "filename" }
+lvim.builtin.lualine.options.globalstatus = lvim.builtin.global_statusline
+
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.project.patterns = { ".git", ".svn" }
-lvim.builtin.lualine.sections.lualine_b = { "filename" }
 lvim.builtin.notify.active = true
 
 -- Builtin
@@ -332,6 +335,12 @@ lvim.plugins = {
     requires = "nvim-lua/plenary.nvim",
     config = function()
       require("gitlinker").setup()
+    end,
+  },
+  {
+    "b0o/incline.nvim",
+    config = function()
+      require("user.incline").config()
     end,
   },
 
