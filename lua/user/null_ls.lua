@@ -51,7 +51,12 @@ M.config = function()
         filetypes = { "markdown" },
       },
       nls.builtins.formatting.goimports, -- go fmt
-      nls.builtins.formatting.sqlformat, -- sql fmt
+      nls.builtins.diagnostics.sqlfluff.with {
+        extra_args = { "--dialect", "postgres" }, -- change to your dialect
+      },
+      nls.builtins.formatting.sqlfluff.with {
+        extra_args = { "--dialect", "postgres" }, -- change to your dialect
+      },
       nls.builtins.formatting.terraform_fmt, -- terraform fmt
       nls.builtins.diagnostics.hadolint, -- dockerlint
       nls.builtins.formatting.cljstyle, -- clojure formatter for karabiner edn files

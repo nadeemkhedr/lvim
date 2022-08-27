@@ -333,15 +333,3 @@ lvim.plugins = {
 }
 
 require("user.mappings").config()
-
--- function/code annotation (comments)
--- {
---   "danymat/neogen",
---   config = function()
---     require("neogen").setup {
---       enabled = true,
---     }
---   end,
---   event = "BufRead",
---   requires = "nvim-treesitter/nvim-treesitter",
--- },
