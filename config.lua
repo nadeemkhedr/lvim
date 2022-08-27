@@ -139,27 +139,7 @@ lvim.plugins = {
   {
     "windwp/nvim-ts-autotag",
   },
-  -- really nice quickfix with preview
-  -- {
-  -- "kevinhwang91/nvim-bqf",
-  -- event = "BufRead",
-  -- },
-  {
-    "sindrets/diffview.nvim",
-    opt = true,
-    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
-    setup = function() end,
-    config = function()
-      require("diffview").setup {
-        enhanced_diff_hl = true,
-        key_bindings = {
-          file_panel = { q = "<Cmd>DiffviewClose<CR>" },
-          view = { q = "<Cmd>DiffviewClose<CR>" },
-          file_history_panel = { q = "<Cmd>DiffviewClose<CR>" },
-        },
-      }
-    end,
-  },
+
   {
     "lukas-reineke/indent-blankline.nvim",
     setup = function()
@@ -175,14 +155,6 @@ lvim.plugins = {
       vim.g.rnvimr_pick_enable = 1
       vim.g.rnvimr_bw_enable = 1
       vim.api.nvim_set_keymap("n", "-", ":RnvimrToggle<CR>", { noremap = true, silent = true })
-    end,
-  },
-  -- Search/replace panel
-  {
-    "windwp/nvim-spectre",
-    event = "BufRead",
-    config = function()
-      require("user.spectre").config()
     end,
   },
   -- todo comments styles
@@ -312,13 +284,6 @@ lvim.plugins = {
     end,
   },
 
-  {
-    "sidebar-nvim/sidebar.nvim",
-    cmd = "SidebarNvimToggle",
-    config = function()
-      require("user.sidebar").config()
-    end,
-  },
   -- better dap UI
   {
     "rcarriga/nvim-dap-ui",
@@ -343,6 +308,20 @@ lvim.plugins = {
       require("user.incline").config()
     end,
   },
+  {
+    "nvim-telescope/telescope-live-grep-args.nvim",
+  },
+  -- function/code annotation (comments)
+  -- {
+  --   "danymat/neogen",
+  --   config = function()
+  --     require("neogen").setup {
+  --       enabled = true,
+  --     }
+  --   end,
+  --   event = "BufRead",
+  --   requires = "nvim-treesitter/nvim-treesitter",
+  -- },
 
   -- {
   --   "beauwilliams/focus.nvim",
