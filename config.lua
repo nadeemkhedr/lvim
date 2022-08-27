@@ -176,7 +176,8 @@ lvim.plugins = {
         return
       end
 
-      colorizer.setup({ "*" }, {
+      -- doing colorize({ "*" }), slows telescope rg
+      colorizer.setup({ "css" }, {
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes
         RRGGBBAA = true, -- #RRGGBBAA hex codes
