@@ -21,6 +21,11 @@ M.config = function()
   -- Telescope
   -- =========================================
   lvim.builtin.telescope.defaults.path_display = {} -- display full path
+
+  lvim.builtin.telescope.defaults.preview = {
+    hide_on_startup = true,
+  }
+
   lvim.builtin.telescope.defaults.mappings = {
     i = {
       ["<esc>"] = require("telescope.actions").close,
