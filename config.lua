@@ -58,7 +58,7 @@ vim.cmd [[
 require("user.null_ls").config()
 
 require("user.builtin").config()
-
+require("user.bufferline").config()
 -- Additional Plugins
 lvim.plugins = {
   {
@@ -311,6 +311,12 @@ lvim.plugins = {
   },
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
+  },
+  -- extend text objects
+
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
   },
   -- function/code annotation (comments)
   -- {

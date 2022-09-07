@@ -33,67 +33,58 @@ M.config = function()
     },
   }
 
-  -- Bufferline
-  -- =========================================
-  local List = require "plenary.collections.py_list"
-  lvim.builtin.bufferline.options.diagnostics_indicator = function(_, _, diagnostics)
-    local result = {}
-    local symbols = { error = kind.icons.error, warning = kind.icons.warn, info = kind.icons.info }
-    for name, count in pairs(diagnostics) do
-      if symbols[name] and count > 0 then
-        table.insert(result, symbols[name] .. count)
-      end
-    end
-    result = table.concat(result, " ")
-    return #result > 0 and result or ""
-  end
-
-  lvim.builtin.bufferline.options.groups = {
-    options = {
-      toggle_hidden_on_enter = true,
+  -- text objects
+  lvim.builtin.treesitter.textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner",
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
+        ["av"] = "@variable.outer",
+        ["iv"] = "@variable.inner",
+      },
     },
-    items = {
-      { name = "ungrouped" },
-      {
-        highlight = { guisp = "#51AFEF" },
-        name = "tests",
-        icon = kind.icons.test,
-        matcher = function(buf)
-          return buf.filename:match "_spec" or buf.filename:match "test"
-        end,
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader><M-a>"] = "@parameter.inner",
+        ["<leader><M-f>"] = "@function.outer",
+        ["<leader><M-e>"] = "@element",
       },
-      {
-        name = "view models",
-        highlight = { guisp = "#03589C" },
-        matcher = function(buf)
-          return buf.filename:match "view_model%.dart"
-        end,
+      swap_previous = {
+        ["<leader><M-A>"] = "@parameter.inner",
+        ["<leader><M-F>"] = "@function.outer",
+        ["<leader><M-E>"] = "@element",
       },
-      {
-        name = "screens",
-        icon = kind.icons.screen,
-        matcher = function(buf)
-          return buf.path:match "screen"
-        end,
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]p"] = "@parameter.inner",
+        ["]f"] = "@function.outer",
+        ["]]"] = "@class.outer",
       },
-      {
-        highlight = { guisp = "#C678DD" },
-        name = "docs",
-        matcher = function(buf)
-          local list = List { "md", "org", "norg", "wiki" }
-          return list:contains(vim.fn.fnamemodify(buf.path, ":e"))
-        end,
+      goto_next_end = {
+        ["]F"] = "@function.outer",
+        ["]["] = "@class.outer",
       },
-      {
-        highlight = { guisp = "#F6A878" },
-        name = "config",
-        matcher = function(buf)
-          return buf.filename:match "go.mod"
-            or buf.filename:match "go.sum"
-            or buf.filename:match "Cargo.toml"
-            or buf.filename:match "manage.py"
-            or buf.filename:match "Makefile"
-        end,
+      goto_previous_start = {
+        ["[p"] = "@parameter.inner",
+        ["[f"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[F"] = "@function.outer",
+        ["[]"] = "@class.outer",
       },
     },
   }
