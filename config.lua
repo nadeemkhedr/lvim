@@ -143,8 +143,12 @@ lvim.plugins = {
   {
     "lukas-reineke/indent-blankline.nvim",
     setup = function()
-      require "user.indent_blankline"
+      vim.g.indent_blankline_char = "▏"
     end,
+    config = function()
+      require("user.indent_blankline").config()
+    end,
+    event = "BufRead",
   },
   {
     "kevinhwang91/rnvimr",
@@ -312,11 +316,33 @@ lvim.plugins = {
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
   },
+  {
+    "simrat39/symbols-outline.nvim",
+    config = function()
+      require("user.symbols_outline").config()
+    end,
+    cmd = "SymbolsOutline",
+  },
+  -- sticky scroll
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function()
+      require("treesitter-context").setup()
+    end,
+  },
   -- extend text objects
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     after = "nvim-treesitter",
+  },
+
+  {
+    "simrat39/rust-tools.nvim",
+    config = function()
+      require("user.rust_tools").config()
+    end,
+    ft = { "rust", "rs" },
   },
   -- function/code annotation (comments)
   -- {

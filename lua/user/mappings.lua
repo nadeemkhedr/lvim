@@ -68,6 +68,7 @@ M.config = function()
   if not whk_status then
     return
   end
+
   whk.register {
     ["<leader><leader>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "Harpoon" },
     ["<leader>1"] = { "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "goto1" },
@@ -78,6 +79,8 @@ M.config = function()
     ["<leader>x"] = { "<cmd>close<cr>", "close pane" },
     ["<leader>z"] = { "<cmd>ToggleOnly<cr>", "Toggle only pane" },
   }
+
+  lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeFindFileToggle<CR>", "Explorer find" }
 
   if lvim.builtin.dap.active then
     lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
