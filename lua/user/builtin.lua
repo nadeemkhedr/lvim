@@ -33,7 +33,8 @@ M.config = function()
     },
   }
 
-  -- text objects
+  -- Treesitter text objects
+  -- =========================================
   lvim.builtin.treesitter.textobjects = {
     select = {
       enable = true,

@@ -51,14 +51,11 @@ vim.cmd [[
   autocmd FileType harpoon setlocal wrap
 ]]
 
--- Language Specific
--- =========================================
--- local custom_servers = { "dockerls", "tsserver", "jsonls", "gopls" }
--- vim.list_extend(lvim.lsp.override, custom_servers)
 require("user.null_ls").config()
-
 require("user.builtin").config()
 require("user.bufferline").config()
+require("user.cmp").config()
+
 -- Additional Plugins
 lvim.plugins = {
   {
@@ -344,6 +341,27 @@ lvim.plugins = {
     end,
     ft = { "rust", "rs" },
   },
+  -- copiolt integration
+  {
+    "github/copilot.vim",
+    config = function()
+      require("user.copilot").config()
+    end,
+  },
+  -- better tab, integrates with cmp and copiolt
+  {
+    "abecodes/tabout.nvim",
+    wants = { "nvim-treesitter" },
+    after = { "nvim-cmp" },
+    config = function()
+      require("user.tabout").config()
+    end,
+  },
+  -- cmp completeion for cmdline
+  {
+    "hrsh7th/cmp-cmdline",
+  },
+
   -- function/code annotation (comments)
   -- {
   --   "danymat/neogen",
