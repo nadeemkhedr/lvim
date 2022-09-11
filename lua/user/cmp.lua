@@ -91,6 +91,13 @@ M.config = function()
   lvim.keys.insert_mode["<M-\\>"] = { "<Cmd>vertical Copilot panel<CR>", { silent = true } }
   lvim.builtin.cmp.mapping["<Tab>"] = cmp.mapping(M.tab, { "i", "c" })
   lvim.builtin.cmp.mapping["<S-Tab>"] = cmp.mapping(M.shift_tab, { "i", "c" })
+  lvim.builtin.cmp.mapping["<C-Space>"] = cmp.mapping(function()
+    if cmp.visible() then
+      cmp.abort()
+    else
+      cmp.complete()
+    end
+  end, { "i", "c" })
 end
 
 function M.tab(fallback)
