@@ -48,8 +48,11 @@ M.config = function()
 
   -- splitv go to def
   lvim.keys.normal_mode["gv"] = "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>"
-  lvim.keys.visual_mode["ga"] = "<esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>"
-
+  lvim.lsp.buffer_mappings.normal_mode["ga"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" }
+  lvim.lsp.buffer_mappings.normal_mode["gA"] = {
+    "<cmd>lua if vim.bo.filetype == 'rust' then vim.cmd[[RustHoverActions]] else vim.lsp.codelens.run() end<CR>",
+    "CodeLens Action",
+  }
   lvim.lsp.buffer_mappings.normal_mode["gI"] = {
     "<cmd>lua require('user.telescope').lsp_implementations()<CR>",
     "Goto Implementation",
@@ -70,14 +73,20 @@ M.config = function()
   end
 
   whk.register {
-    ["<leader><leader>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "Harpoon" },
-    ["<leader>1"] = { "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "goto1" },
-    ["<leader>2"] = { "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", "goto2" },
-    ["<leader>3"] = { "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "goto3" },
-    ["<leader>4"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "goto4" },
+    ["<leader><leader>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", " Harpoon" },
+    ["<leader>1"] = { "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", " goto1" },
+    ["<leader>2"] = { "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", " goto2" },
+    ["<leader>3"] = { "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", " goto3" },
+    ["<leader>4"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", " goto4" },
+
     ["<leader>v"] = { "<cmd>vsplit<cr>", "split right" },
     ["<leader>x"] = { "<cmd>close<cr>", "close pane" },
-    ["<leader>z"] = { "<cmd>ToggleOnly<cr>", "Toggle only pane" },
+  }
+
+  lvim.keys.normal_mode["<esc><esc>"] = "<cmd>nohlsearch<cr>"
+  lvim.keys.normal_mode["<cr>"] = {
+    "<cmd>ToggleOnly<cr>",
+    { noremap = true, silent = true, nowait = true },
   }
 
   lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeFindFileToggle<CR>", "Explorer find" }
@@ -101,8 +110,12 @@ M.config = function()
 
   lvim.builtin.which_key.mappings["a"] = {
     name = "+Actions",
-    a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "Add Mark harpoon" },
+    a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", " Add Mark" },
     l = { "<cmd>IndentBlanklineToggle<cr>", "Toggle Indent line" },
+    m = {
+      "<cmd>lua require('lsp_lines').toggle()<cr>",
+      "識LSP Lines",
+    },
   }
 
   lvim.builtin.which_key.mappings.g.l = { "<cmd>GitBlameToggle<cr>", "Git blame" }

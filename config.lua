@@ -10,9 +10,52 @@ vim.opt.clipboard = ""
 vim.opt.relativenumber = true
 vim.opt.timeoutlen = 200
 vim.o.inccommand = "split"
+vim.opt.cmdheight = 1
+vim.opt.fillchars = {
+  fold = " ",
+  eob = " ", -- suppress ~ at EndOfBuffer
+  diff = "╱", -- alternatives = ⣿ ░ ─
+  msgsep = "‾",
+  foldopen = "▾",
+  foldsep = "│",
+  foldclose = "▸",
+  horiz = "━",
+  horizup = "┻",
+  horizdown = "┳",
+  vert = "┃",
+  vertleft = "┫",
+  vertright = "┣",
+  verthoriz = "╋",
+}
+
+vim.opt.wildignore = {
+  "*.aux,*.out,*.toc",
+  "*.o,*.obj,*.dll,*.jar,*.pyc,__pycache__,*.rbc,*.class",
+  -- media
+  "*.ai,*.bmp,*.gif,*.ico,*.jpg,*.jpeg,*.png,*.psd,*.webp",
+  "*.avi,*.m4a,*.mp3,*.oga,*.ogg,*.wav,*.webm",
+  "*.eot,*.otf,*.ttf,*.woff",
+  "*.doc,*.pdf",
+  -- archives
+  "*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz",
+  -- temp/system
+  "*.*~,*~ ",
+  "*.swp,.lock,.DS_Store,._*,tags.lock",
+  -- version control
+  ".git,.svn",
+}
+
+vim.opt.listchars = {
+  eol = nil,
+  tab = "│ ",
+  extends = "›", -- Alternatives: … »
+  precedes = "‹", -- Alternatives: … «
+  trail = "•", -- BULLET (U+2022, UTF-8: E2 80 A2)
+}
 
 -- LSP
-lvim.lsp.diagnostics.virtual_text = true -- "gl" to show diagnostics for each error
+-- disable because we are using lsp_lines
+lvim.lsp.diagnostics.virtual_text = false -- "gl" to show diagnostics for each error when true
 lvim.lsp.automatic_servers_installation = false
 
 -- Treesitter
@@ -360,6 +403,15 @@ lvim.plugins = {
   -- cmp completeion for cmdline
   {
     "hrsh7th/cmp-cmdline",
+  },
+
+  -- better virtual text errors
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+    event = "bufread",
   },
 
   -- function/code annotation (comments)
