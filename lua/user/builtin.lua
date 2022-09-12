@@ -90,6 +90,15 @@ M.config = function()
     },
   }
 
+  lvim.builtin.treesitter.incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<C-n>",
+      node_incremental = "<C-n>",
+      scope_incremental = "<C-s>",
+      node_decremental = "<C-r>",
+    },
+  }
   -- cool lsp
 
   lvim.lsp.buffer_mappings.normal_mode["K"] = {
