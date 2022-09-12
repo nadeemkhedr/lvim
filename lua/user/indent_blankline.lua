@@ -45,23 +45,12 @@ M.config = function()
       "lspinfo",
       "", -- for all buffers without a file type
     },
-    -- char = "▏",
-    char_list = { "", "┊", "┆", "¦", "|", "¦", "┆", "┊", "" },
-    char_highlight_list = {
-      "IndentBlanklineIndent1",
-      "IndentBlanklineIndent2",
-      "IndentBlanklineIndent3",
-      "IndentBlanklineIndent4",
-      "IndentBlanklineIndent5",
-      "IndentBlanklineIndent6",
-    },
     show_trailing_blankline_indent = false,
     show_first_indent_level = false,
     space_char_blankline = " ",
     use_treesitter = true,
     show_foldtext = false,
     show_current_context = true,
-    show_current_context_start = false,
     context_patterns = {
       "class",
       "return",

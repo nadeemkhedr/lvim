@@ -81,16 +81,10 @@ M.config = function()
 
     ["<leader>v"] = { "<cmd>vsplit<cr>", "split right" },
     ["<leader>x"] = { "<cmd>close<cr>", "close pane" },
-  }
-
-  lvim.keys.normal_mode["<esc><esc>"] = "<cmd>nohlsearch<cr>"
-  lvim.keys.normal_mode["<cr>"] = {
-    "<cmd>ToggleOnly<cr>",
-    { noremap = true, silent = true, nowait = true },
+    ["<leader><cr>"] = { "<cmd>ToggleOnly<cr>", "Maximize pane" },
   }
 
   lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeFindFileToggle<CR>", "Explorer find" }
-
   if lvim.builtin.dap.active then
     lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
     lvim.builtin.which_key.mappings["dU"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" }

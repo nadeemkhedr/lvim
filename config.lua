@@ -340,6 +340,7 @@ lvim.plugins = {
     requires = { "mfussenegger/nvim-dap" },
     disable = not lvim.builtin.dap.active,
   },
+  -- a way to open visually selected lines in github
   {
     "ruifm/gitlinker.nvim",
     requires = "nvim-lua/plenary.nvim",
@@ -347,6 +348,7 @@ lvim.plugins = {
       require("gitlinker").setup()
     end,
   },
+  -- show file name top
   {
     "b0o/incline.nvim",
     config = function()
@@ -371,7 +373,6 @@ lvim.plugins = {
     end,
   },
   -- extend text objects
-
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     after = "nvim-treesitter",
