@@ -270,15 +270,6 @@ lvim.plugins = {
     cmd = "ToggleOnly",
   },
   {
-    "f-person/git-blame.nvim",
-    cmd = "GitBlameToggle",
-    config = function()
-      vim.g.gitblame_enabled = 0
-      vim.g.gitblame_message_template = "<summary> • <date> • <author>"
-      vim.g.gitblame_highlight_group = "LineNr"
-    end,
-  },
-  {
     "filipdutescu/renamer.nvim",
     config = function()
       require("renamer").setup()
@@ -329,6 +320,20 @@ lvim.plugins = {
     end,
   },
 
+  -- better git
+  {
+    "sindrets/diffview.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFileHistory" },
+  },
+  -- a way to open visually selected lines in github
+  {
+    "ruifm/gitlinker.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("gitlinker").setup()
+    end,
+  },
   -- better dap UI
   {
     "rcarriga/nvim-dap-ui",
@@ -339,14 +344,6 @@ lvim.plugins = {
     event = "BufReadPost",
     requires = { "mfussenegger/nvim-dap" },
     disable = not lvim.builtin.dap.active,
-  },
-  -- a way to open visually selected lines in github
-  {
-    "ruifm/gitlinker.nvim",
-    requires = "nvim-lua/plenary.nvim",
-    config = function()
-      require("gitlinker").setup()
-    end,
   },
   -- show file name top
   {

@@ -113,7 +113,7 @@ M.config = function()
     },
   }
 
-  lvim.builtin.which_key.mappings.g.l = { "<cmd>GitBlameToggle<cr>", "Git blame" }
+  lvim.builtin.which_key.mappings.g.l = { "<cmd>Gitsigns toggle_current_line_blame<cr>", "Git blame" }
   lvim.builtin.which_key.mappings.g.d = { "<cmd>DiffviewOpen<cr>", "Diffview HEAD" }
   lvim.builtin.which_key.mappings.g.h = { "<cmd>DiffviewFileHistory<cr>", "Diffview file history" }
   -- lvim.builtin.which_key.mappings.l.d = { "<cmd>TroubleToggle<cr>", "Diagnostics" }
