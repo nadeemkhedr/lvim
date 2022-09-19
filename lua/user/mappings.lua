@@ -46,12 +46,15 @@ M.config = function()
   lvim.keys.insert_mode["<A-j>"] = false
   lvim.keys.insert_mode["<A-k>"] = false
 
-  -- splitv go to def
   lvim.keys.insert_mode["<c-s>"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>"
-  lvim.keys.normal_mode["gv"] = "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>"
+  -- splitv go to def
+  -- lvim.keys.normal_mode["gv"] = "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>"
+  lvim.keys.normal_mode["gv"] =
+    "<cmd>vsplit | lua vim.lsp.buf.definition({on_list = function(items) vim.fn.setqflist({}, 'r', items) vim.cmd('cfirst') end})<cr>"
+
   lvim.lsp.buffer_mappings.normal_mode["ga"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" }
   lvim.lsp.buffer_mappings.normal_mode["gA"] = {
-    "<cmd>lua if vim.bo.filetype == 'rust' then vim.cmd[[RustHoverActions]] else vim.lsp.codelens.run() end<CR>",
+    "<cmd>lua if vim.bo.filetype == 'rust' then require'rust-tools'.hover_actions.hover_actions() else vim.lsp.codelens.run() end<CR>",
     "CodeLens Action",
   }
   lvim.lsp.buffer_mappings.normal_mode["gI"] = {
@@ -100,6 +103,7 @@ M.config = function()
     "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>",
     "String",
   }
+  lvim.keys.visual_mode["<leader>st"] = "<Cmd>lua require('user.telescope').grep_string_visual()<CR>"
 
   lvim.builtin.which_key.vmappings["y"] = { '"+y', "yank to clipboard" }
 
@@ -111,6 +115,20 @@ M.config = function()
       "<cmd>lua require('lsp_lines').toggle()<cr>",
       "識LSP Lines",
     },
+  }
+  lvim.builtin.which_key.mappings["F"] = {
+    name = " Find",
+    b = { "<cmd>lua require('user.telescope').builtin()<cr>", "Builtin" },
+    f = { "<cmd>lua require('user.telescope').curbuf()<cr>", "Current Buffer" },
+    g = { "<cmd>lua require('user.telescope').git_files()<cr>", "Git Files" },
+    i = { "<cmd>lua require('user.telescope').installed_plugins()<cr>", "Installed Plugins" },
+    l = {
+      "<cmd>lua require('telescope.builtin').resume()<cr>",
+      "Last Search",
+    },
+    p = { "<cmd>lua require('user.telescope').project_search()<cr>", "Project" },
+    s = { "<cmd>lua require('user.telescope').git_status()<cr>", "Git Status" },
+    z = { "<cmd>lua require('user.telescope').search_only_certain_files()<cr>", "Certain Filetype" },
   }
 
   lvim.builtin.which_key.mappings.g.l = { "<cmd>Gitsigns toggle_current_line_blame<cr>", "Git blame" }

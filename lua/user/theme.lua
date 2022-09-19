@@ -102,8 +102,7 @@ M.catppuccin = function()
         },
       },
       which_key = true,
-      lightspeed = lvim.builtin.motion_provider == "lightspeed",
-      hop = lvim.builtin.motion_provider == "hop",
+      leap = true,
     },
   }
 end

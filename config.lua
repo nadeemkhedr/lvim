@@ -172,8 +172,11 @@ lvim.plugins = {
   },
   -- Add sneak like motion and extends f to show next occurrence
   {
-    "ggandor/lightspeed.nvim",
+    "ggandor/leap.nvim",
     event = "BufRead",
+    config = function()
+      require("leap").set_default_keymaps()
+    end,
   },
   -- auto close/rename html tags
   {
