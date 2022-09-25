@@ -1,36 +1,5 @@
 local M = {}
 
-M.tokyonight = function()
-  vim.g.tokyonight_dev = true
-  vim.g.tokyonight_style = "storm"
-  vim.g.tokyonight_sidebars = {
-    "qf",
-    "vista_kind",
-    "terminal",
-    "packer",
-    "spectre_panel",
-    "NeogitStatus",
-    "help",
-  }
-  vim.g.tokyonight_cterm_colors = false
-  vim.g.tokyonight_terminal_colors = true
-  vim.g.tokyonight_italic_comments = false
-  vim.g.tokyonight_italic_keywords = true
-  vim.g.tokyonight_italic_functions = false
-  vim.g.tokyonight_italic_variables = false
-  vim.g.tokyonight_transparent = lvim.transparent_window
-  vim.g.tokyonight_hide_inactive_statusline = true
-  vim.g.tokyonight_dark_sidebar = true
-  vim.g.tokyonight_dim_inactive = true
-  vim.g.tokyonight_global_status = true
-  vim.g.tokyonight_dark_float = true
-  vim.g.tokyonight_colors = { git = { change = "#6183bb", add = "#449dab", delete = "#f7768e", conflict = "#bb7a61" } }
-  local _time = os.date "*t"
-  if _time.hour < 8 then
-    vim.g.tokyonight_style = "night"
-  end
-end
-
 M.rose_pine = function()
   require("rose-pine").setup {
     ---@usage 'main'|'moon'
@@ -63,36 +32,46 @@ M.rose_pine = function()
     },
     highlight_groups = {
       Boolean = { fg = "love" },
+      Cursor = { fg = "#232136", bg = "#e0def4" },
+      NormalFloat = { bg = "#191724" },
+      VertSplit = { fg = "#21202e", bg = "#21202e" },
+      SignColumn = { fg = "#e0def4", bg = "NONE" },
+      SignColumnSB = { fg = "#e0def4", bg = "NONE" },
     },
   }
 end
 
 M.catppuccin = function()
   local catppuccin = require "catppuccin"
-  catppuccin.setup {
+  local opts = {
     transparent_background = lvim.transparent_window,
     term_colors = false,
     styles = {
       comments = {},
       keywords = { "italic" },
     },
+    compile = {
+      enabled = true, -- NOTE: make sure to run `:CatppuccinCompile`
+      path = vim.fn.stdpath "cache" .. "/catppuccin",
+    },
     dim_inactive = {
-      enabled = lvim.builtin.global_statusline,
+      enabled = true,
       shade = "dark",
       percentage = 0.15,
     },
     integrations = {
+      cmp = true,
+      fidget = true,
       lsp_trouble = true,
-      nvimtree = {
-        transparent_panel = lvim.transparent_window,
-      },
+      telescope = true,
+      treesitter = true,
       native_lsp = {
         enabled = true,
         virtual_text = {
           errors = { "italic" },
-          hints = { "italic" },
+          hints = {},
           warnings = { "italic" },
-          information = { "italic" },
+          information = {},
         },
         underlines = {
           errors = { "undercurl" },
@@ -101,10 +80,43 @@ M.catppuccin = function()
           information = {},
         },
       },
+      dap = {
+        enabled = lvim.builtin.dap.active,
+        enable_ui = lvim.builtin.dap.active,
+      },
+      indent_blankline = {
+        enabled = true,
+        colored_indent_levels = true,
+      },
+      gitsigns = true,
+      notify = lvim.builtin.notify.active,
+      nvimtree = true,
+      overseer = lvim.builtin.task_runner == "overseer",
+      symbols_outline = lvim.builtin.tag_provider == "symbols-outline",
       which_key = true,
       leap = true,
     },
+    highlight_overrides = {
+      mocha = {
+        NormalFloat = { fg = "#CDD6F4", bg = "#151521" },
+      },
+    },
   }
+  if lvim.transparent_window then
+    local colors = require("catppuccin.palettes").get_palette()
+    colors.none = "NONE"
+    opts.custom_highlights = {
+      Comment = { fg = colors.overlay1 },
+      LineNr = { fg = colors.overlay1 },
+      CursorLine = { bg = colors.none },
+      CursorLineNr = { fg = colors.lavender },
+      DiagnosticVirtualTextError = { bg = colors.none },
+      DiagnosticVirtualTextWarn = { bg = colors.none },
+      DiagnosticVirtualTextInfo = { bg = colors.none },
+      DiagnosticVirtualTextHint = { bg = colors.none },
+    }
+  end
+  catppuccin.setup(opts)
 end
 
 M.kanagawa = function()
@@ -133,8 +145,8 @@ M.colors = {
   tokyonight_colors = {
     none = "NONE",
     bg_dark = "#1f2335",
-    bg_alt = "#1f2335",
-    bg = "#1a1b26",
+    bg_alt = "#1a1b26",
+    bg = "#24283b",
     bg_br = "#292e42",
     terminal_black = "#414868",
     fg = "#c0caf5",
@@ -225,7 +237,8 @@ M.colors = {
     gray0 = "#6E6C7E",
     black4 = "#575268",
     bg_br = "#302D41",
-    bg = "#1A1826",
+    bg = "#302D41",
+    surface1 = "#302D41",
     bg_alt = "#1E1E2E",
     fg = "#D9E0EE",
     black = "#1A1826",
@@ -238,7 +251,7 @@ M.colors = {
   },
 
   kanagawa_colors = {
-    bg = "#16161D",
+    bg = "#21212A",
     bg_alt = "#1F1F28",
     bg_br = "#363646",
     fg = "#DCD7BA",
@@ -252,15 +265,17 @@ M.colors = {
     green = "#76946A",
     git = {
       add = "#76946A",
-      conflict = "#252535",
-      delete = "#C34043",
-      change = "#DCA561",
+      conflict = "#DCA561",
+      delete = "#E46876",
+      change = "#7FB4CA",
     },
   },
 }
-
 M.current_colors = function()
   local colors = M.colors.tokyonight_colors
+  if not lvim.builtin.time_based_themes then
+    return colors
+  end
   local _time = os.date "*t"
   if _time.hour >= 1 and _time.hour < 9 then
     colors = M.colors.rose_pine_colors
@@ -310,6 +325,24 @@ M.telescope_theme = function()
 
   local function set_fg_bg(group, fg, bg)
     vim.cmd("hi " .. group .. " guifg=" .. fg .. " guibg=" .. bg)
+  end
+
+  -- NOTE: these are my personal preferences
+  if lvim.builtin.time_based_themes then
+    local _time = os.date "*t"
+    local current_colors = M.current_colors()
+    set_fg_bg("diffAdded", current_colors.git.add, "NONE")
+    set_fg_bg("diffRemoved", current_colors.git.delete, "NONE")
+    set_fg_bg("diffChanged", current_colors.git.change, "NONE")
+    set_fg_bg("WinSeparator", current_colors.bg_alt, current_colors.bg_alt)
+    set_fg_bg("SignColumn", current_colors.bg, "NONE")
+    set_fg_bg("SignColumnSB", current_colors.bg, "NONE")
+    if _time.hour >= 9 and _time.hour < 17 then
+      -- HACK: change highlights for tokyonight theme
+      set_fg_bg("NormalFloat", current_colors.fg, current_colors.bg_alt)
+      set_fg_bg("Cursor", current_colors.bg, current_colors.fg)
+      set_fg_bg("NormalNC", current_colors.fg_dark, "#1f2335")
+    end
   end
 
   local colors = M.hi_colors()

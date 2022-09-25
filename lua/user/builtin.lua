@@ -20,7 +20,7 @@ M.config = function()
 
   -- Telescope
   -- =========================================
-  lvim.builtin.telescope.defaults.path_display = {} -- display full path
+  -- lvim.builtin.telescope.defaults.path_display = {} -- display full path
 
   lvim.builtin.telescope.defaults.preview = {
     hide_on_startup = true,
@@ -32,6 +32,12 @@ M.config = function()
       ["<tab>"] = require("telescope.actions.layout").toggle_preview,
     },
   }
+
+  -- Theme
+  -- =========================================
+  -- lvim.builtin.theme.options.style = "storm"
+  lvim.builtin.theme.options.dim_inactive = true
+  lvim.builtin.theme.options.styles.comments = {}
 
   -- Treesitter text objects
   -- =========================================

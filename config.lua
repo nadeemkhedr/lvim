@@ -1,9 +1,10 @@
 -- General
+lvim.colorscheme = "tokyonight"
+lvim.builtin.time_based_themes = true -- will change the active theme based on time
 lvim.transparent_window = false
 lvim.format_on_save = true
 lvim.lint_on_save = true
 lvim.leader = "space"
-lvim.colorscheme = "pablo"
 
 -- Default Options
 vim.opt.clipboard = ""
@@ -82,7 +83,7 @@ lvim.builtin.notify.active = true
 -- Builtin
 lvim.builtin.alpha.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.dap.active = true
+lvim.builtin.dap.active = false
 
 -- Debugging
 -- =========================================
@@ -182,17 +183,6 @@ lvim.plugins = {
   {
     "windwp/nvim-ts-autotag",
   },
-
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    setup = function()
-      vim.g.indent_blankline_char = "▏"
-    end,
-    config = function()
-      require("user.indent_blankline").config()
-    end,
-    event = "BufRead",
-  },
   {
     "kevinhwang91/rnvimr",
     config = function()
@@ -265,9 +255,6 @@ lvim.plugins = {
       }
     end,
   },
-  -- jsonnet file support
-  { "google/vim-jsonnet" },
-
   {
     "caenrique/nvim-maximize-window-toggle",
     cmd = "ToggleOnly",
@@ -354,6 +341,14 @@ lvim.plugins = {
     config = function()
       require("user.incline").config()
     end,
+    disable = true,
+  },
+  {
+    "fgheng/winbar.nvim",
+    config = function()
+      require("user.winb").config()
+    end,
+    event = { "InsertEnter", "CursorMoved" },
   },
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
