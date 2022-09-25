@@ -115,20 +115,11 @@ lvim.plugins = {
     end,
   },
   {
-    "abzcoding/tokyonight.nvim",
-    branch = "feat/local",
-    config = function()
-      require("user.theme").tokyonight()
-      vim.cmd [[colorscheme tokyonight]]
-    end,
-    cond = function()
-      local _time = os.date "*t"
-      return _time.hour >= 9 and _time.hour < 17
-    end,
-  },
-  {
     "catppuccin/nvim",
     as = "catppuccin",
+    setup = function()
+      vim.g.catppuccin_flavour = "mocha"
+    end,
     config = function()
       require("user.theme").catppuccin()
       vim.cmd [[colorscheme catppuccin]]
