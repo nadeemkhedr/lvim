@@ -20,16 +20,78 @@ M.config = function()
 
   -- Telescope
   -- =========================================
-  -- lvim.builtin.telescope.defaults.path_display = {} -- display full path
+  lvim.builtin.telescope.defaults.path_display = {} -- display full path
+
+  lvim.builtin.telescope.defaults.dynamic_preview_title = true
+  lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
 
   lvim.builtin.telescope.defaults.preview = {
     hide_on_startup = true,
   }
 
+  lvim.builtin.telescope.defaults.layout_config = {
+    width = 0.90,
+    height = 0.85,
+    preview_cutoff = 120,
+    prompt_position = "bottom",
+    horizontal = {
+      preview_width = function(_, cols, _)
+        return math.floor(cols * 0.6)
+      end,
+    },
+    vertical = {
+      width = 0.9,
+      height = 0.95,
+      preview_height = 0.5,
+    },
+
+    flex = {
+      horizontal = {
+        preview_width = 0.9,
+      },
+    },
+  }
+
+  lvim.builtin.telescope.pickers.git_files = {
+    hidden = true,
+    show_untracked = true,
+    layout_strategy = "horizontal",
+  }
+  lvim.builtin.telescope.pickers.live_grep = {
+    only_sort_text = true,
+    layout_strategy = "horizontal",
+  }
+  lvim.builtin.telescope.pickers.find_files = {
+    layout_strategy = "horizontal",
+    find_command = { "fd", "--type=file", "--hidden" },
+  }
+
+  -- lvim.builtin.telescope.defaults.preview = {
+  --   hide_on_startup = true,
+  -- }
+  -- lvim.builtin.telescope.defaults.layout_config = {
+  --   width = 0.75,
+  --   preview_cutoff = 120,
+  --   horizontal = {
+  --     preview_width = function(_, cols, _)
+  --       if cols < 120 then
+  --         return math.floor(cols * 0.5)
+  --       end
+  --       return math.floor(cols * 0.6)
+  --     end,
+  --     mirror = false,
+  --   },
+  --   vertical = { mirror = false },
+  -- }
+
   lvim.builtin.telescope.defaults.mappings = {
     i = {
       ["<esc>"] = require("telescope.actions").close,
       ["<tab>"] = require("telescope.actions.layout").toggle_preview,
+      ["<C-d>"] = require("telescope.actions").delete_buffer,
+    },
+    n = {
+      ["dd"] = require("telescope.actions").delete_buffer,
     },
   }
 
