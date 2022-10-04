@@ -16,6 +16,15 @@ M.toggle_qf = function()
   end
 end
 
+M.toggle_vtext = function()
+  local c = vim.diagnostic.config()
+  if c and c.virtual_text then
+    vim.diagnostic.config { virtual_text = false }
+  else
+    vim.diagnostic.config { virtual_text = lvim.lsp.diagnostics.virtual_text }
+  end
+end
+
 M.config = function()
   -- keymappings
   lvim.leader = "space"
@@ -48,9 +57,13 @@ M.config = function()
 
   lvim.keys.insert_mode["<c-s>"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>"
   -- splitv go to def
-  -- lvim.keys.normal_mode["gv"] = "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>"
   lvim.keys.normal_mode["gv"] =
     "<cmd>vsplit | lua vim.lsp.buf.definition({on_list = function(items) vim.fn.setqflist({}, 'r', items) vim.cmd('cfirst') end})<cr>"
+
+  lvim.lsp.buffer_mappings.normal_mode["gd"] = {
+    "<cmd> lua vim.lsp.buf.definition({on_list = function(items) vim.fn.setqflist({}, 'r', items) vim.cmd('cfirst') end})<cr>",
+    "Go to definition",
+  }
 
   lvim.lsp.buffer_mappings.normal_mode["ga"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" }
   lvim.lsp.buffer_mappings.normal_mode["gA"] = {
@@ -111,6 +124,7 @@ M.config = function()
     name = "+Actions",
     a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", " Add Mark" },
     l = { "<cmd>IndentBlanklineToggle<cr>", "Toggle Indent line" },
+    i = { "<cmd>lua require('user.mappings').toggle_vtext()<cr>", "Toggle virtual text" },
     m = {
       "<cmd>lua require('lsp_lines').toggle()<cr>",
       "識LSP Lines",
