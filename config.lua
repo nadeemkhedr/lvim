@@ -5,6 +5,7 @@ lvim.transparent_window = false
 lvim.format_on_save = true
 lvim.lint_on_save = true
 lvim.leader = "space"
+lvim.builtin.breadcrumbs.active = true
 
 -- Default Options
 vim.opt.clipboard = ""
@@ -56,7 +57,7 @@ vim.opt.listchars = {
 
 -- LSP
 -- disable because we are using lsp_lines
-lvim.lsp.diagnostics.virtual_text = false -- "gl" to show diagnostics for each error when true
+lvim.lsp.diagnostics.virtual_text = true -- "gl" to show diagnostics for each error when true
 lvim.lsp.automatic_servers_installation = false
 
 -- Treesitter
@@ -83,12 +84,12 @@ lvim.builtin.notify.active = true
 -- Builtin
 lvim.builtin.alpha.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.dap.active = false
+lvim.builtin.dap.active = true
 
 -- Debugging
 -- =========================================
 if lvim.builtin.dap.active then
-  require("user.dap").config()
+  -- require("user.dap").config()
 end
 
 vim.cmd [[
@@ -272,35 +273,6 @@ lvim.plugins = {
   -- add log hilights
   { "mtdl9/vim-log-highlighting", ft = { "text", "log" } },
 
-  -- much faster than default hilight
-  {
-    "nathom/filetype.nvim",
-    config = function()
-      require("filetype").setup {
-        overrides = {
-          literal = {
-            ["kitty.conf"] = "kitty",
-            [".gitignore"] = "conf",
-          },
-          complex = {
-            [".clang*"] = "yaml",
-            [".*%.env.*"] = "sh",
-            [".*ignore"] = "conf",
-          },
-          extensions = {
-            tf = "terraform",
-            tfvars = "terraform",
-            tfstate = "json",
-            eslintrc = "json",
-            prettierrc = "json",
-            mdx = "markdown",
-            prisma = "prisma",
-          },
-        },
-      }
-    end,
-  },
-
   -- better git
   {
     "sindrets/diffview.nvim",
@@ -315,17 +287,6 @@ lvim.plugins = {
       require("gitlinker").setup()
     end,
   },
-  -- better dap UI
-  {
-    "rcarriga/nvim-dap-ui",
-    config = function()
-      require("dapui").setup()
-    end,
-    ft = { "python", "rust", "go" },
-    event = "BufReadPost",
-    requires = { "mfussenegger/nvim-dap" },
-    disable = not lvim.builtin.dap.active,
-  },
   -- show file name top
   {
     "b0o/incline.nvim",
@@ -334,12 +295,15 @@ lvim.plugins = {
     end,
     disable = true,
   },
+
+  -- use builtin breadcrumb option
   {
     "fgheng/winbar.nvim",
     config = function()
       require("user.winb").config()
     end,
     event = { "InsertEnter", "CursorMoved" },
+    disable = true,
   },
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
@@ -392,13 +356,13 @@ lvim.plugins = {
     "hrsh7th/cmp-cmdline",
   },
 
-  -- better virtual text errors
+  -- better virtual text errors, disable causing busy moving messages
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function()
       require("lsp_lines").setup()
     end,
-    event = "bufread",
+    disable = true,
   },
 
   -- function/code annotation (comments)
