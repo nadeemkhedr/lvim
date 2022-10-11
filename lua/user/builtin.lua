@@ -2,6 +2,8 @@ local M = {}
 M.config = function()
   local kind = require "user.lsp_icons"
 
+  lvim.builtin.cmp.cmdline.enable = false
+
   -- NvimTree
   -- =========================================
   -- lvim.builtin.nvimtree.hide_dotfiles = 0
@@ -88,10 +90,6 @@ M.config = function()
     i = {
       ["<esc>"] = require("telescope.actions").close,
       ["<tab>"] = require("telescope.actions.layout").toggle_preview,
-      ["<C-d>"] = require("telescope.actions").delete_buffer,
-    },
-    n = {
-      ["dd"] = require("telescope.actions").delete_buffer,
     },
   }
 

@@ -5,14 +5,13 @@ lvim.transparent_window = false
 lvim.format_on_save = true
 lvim.lint_on_save = true
 lvim.leader = "space"
-lvim.builtin.breadcrumbs.active = true
 
 -- Default Options
 vim.opt.clipboard = ""
 vim.opt.relativenumber = true
 vim.opt.timeoutlen = 200
 vim.o.inccommand = "split"
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.fillchars = {
   fold = " ",
   eob = " ", -- suppress ~ at EndOfBuffer
@@ -79,18 +78,6 @@ lvim.builtin.lualine.options.globalstatus = lvim.builtin.global_statusline
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.project.patterns = { ".git", ".svn" }
-lvim.builtin.notify.active = true
-
--- Builtin
-lvim.builtin.alpha.active = true
-lvim.builtin.terminal.active = true
-lvim.builtin.dap.active = true
-
--- Debugging
--- =========================================
-if lvim.builtin.dap.active then
-  -- require("user.dap").config()
-end
 
 vim.cmd [[
   autocmd FileType harpoon setlocal wrap
@@ -335,20 +322,48 @@ lvim.plugins = {
     end,
     ft = { "rust", "rs" },
   },
-  -- copiolt integration
+  {
+    "zbirenbaum/copilot.lua",
+    event = { "VimEnter" },
+    config = function()
+      vim.defer_fn(function()
+        require("copilot").setup {
+          -- LunarVim users need to specify path to the plugin manager
+          plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
+        }
+      end, 100)
+    end,
+    disable = true,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+    disable = true,
+  },
+
+  -- copilot integration
   {
     "github/copilot.vim",
     config = function()
       require("user.copilot").config()
     end,
   },
-  -- better tab, integrates with cmp and copiolt
+  -- better tab, integrates with cmp and copilot
   {
     "abecodes/tabout.nvim",
     wants = { "nvim-treesitter" },
     after = { "nvim-cmp" },
     config = function()
       require("user.tabout").config()
+    end,
+  },
+  {
+    "kevinhwang91/nvim-bqf",
+    config = function()
+      require("user.bqf").config()
     end,
   },
   -- cmp completeion for cmdline
