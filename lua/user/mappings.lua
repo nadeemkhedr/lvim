@@ -28,6 +28,9 @@ end
 M.config = function()
   -- keymappings
   lvim.leader = "space"
+
+  lvim.builtin.terminal.open_mapping = "<C-t>"
+
   lvim.keys.normal_mode["Y"] = "y$"
   lvim.keys.visual_mode["p"] = [["_dP]]
 
