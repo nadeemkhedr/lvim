@@ -25,6 +25,14 @@ M.toggle_vtext = function()
   end
 end
 
+M.toggle_relative_number = function()
+  if vim.wo.relativenumber then
+    vim.wo.relativenumber = false
+  else
+    vim.wo.relativenumber = true
+  end
+end
+
 M.config = function()
   -- keymappings
   lvim.leader = "space"
@@ -131,6 +139,10 @@ M.config = function()
     m = {
       "<cmd>lua require('lsp_lines').toggle()<cr>",
       "識LSP Lines",
+    },
+    n = {
+      "<cmd>lua require('user.mappings').toggle_relative_number()<cr>",
+      "Toggle rel-line numbers",
     },
   }
   lvim.builtin.which_key.mappings["F"] = {
