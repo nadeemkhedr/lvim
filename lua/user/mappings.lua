@@ -127,6 +127,10 @@ M.config = function()
     "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>",
     "String",
   }
+  lvim.builtin.which_key.mappings["so"] = {
+    "<cmd>Telescope lsp_document_symbols<cr>",
+    "Search symbols",
+  }
   lvim.keys.visual_mode["<leader>st"] = "<Cmd>lua require('user.telescope').grep_string_visual()<CR>"
 
   lvim.builtin.which_key.vmappings["y"] = { '"+y', "yank to clipboard" }

@@ -117,7 +117,8 @@ function M.tab(fallback)
   elseif methods.jumpable(1) then
     luasnip.jump(1)
   elseif methods.has_words_before() then
-    cmp.complete()
+    -- cmp.complete()
+    fallback()
   else
     methods.feedkeys("<Plug>(Tabout)", "")
   end
@@ -142,5 +143,4 @@ function M.shift_tab(fallback)
     end
   end
 end
-
 return M

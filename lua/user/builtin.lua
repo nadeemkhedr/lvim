@@ -96,8 +96,8 @@ M.config = function()
   -- Theme
   -- =========================================
   -- lvim.builtin.theme.options.style = "storm"
-  lvim.builtin.theme.options.dim_inactive = true
-  lvim.builtin.theme.options.styles.comments = {}
+  --lvim.builtin.theme.options.dim_inactive = true
+  --lvim.builtin.theme.options.styles.comments = {}
 
   -- Treesitter text objects
   -- =========================================

@@ -6,12 +6,42 @@ lvim.format_on_save = true
 lvim.lint_on_save = true
 lvim.leader = "space"
 
+-- LSP
+-- disable because we are using lsp_lines
+lvim.lsp.diagnostics.virtual_text = true -- "gl" to show diagnostics for each error when true
+lvim.lsp.automatic_servers_installation = false
+
+vim.g.camelcasemotion_key = ","
+-- Treesitter
+local languages = vim.tbl_flatten {
+  { "bash", "c", "c_sharp", "cmake", "comment", "cpp", "css", "d", "dart" },
+  { "dockerfile", "elixir", "elm", "erlang", "fennel", "fish", "go" },
+  { "gomod", "graphql", "hcl", "help", "html", "java", "javascript", "jsdoc" },
+  { "json", "jsonc", "julia", "kotlin", "latex", "ledger", "lua", "make" },
+  { "markdown", "nix", "ocaml", "perl", "php", "python", "query", "r" },
+  { "regex", "rego", "ruby", "rust", "scala", "scss", "solidity", "swift" },
+  { "teal", "toml", "tsx", "typescript", "vim", "vue", "yaml", "zig", "prisma" },
+}
+lvim.builtin.treesitter.ensure_installed = languages
+
+lvim.builtin.global_statusline = true
+lvim.builtin.lualine.sections.lualine_b = { "filename" }
+lvim.builtin.lualine.options.globalstatus = lvim.builtin.global_statusline
+
+lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.autotag.enable = true
+lvim.builtin.project.patterns = { ".git", ".svn" }
+
+vim.cmd [[
+  autocmd FileType harpoon setlocal wrap
+]]
+
 -- Default Options
 vim.opt.clipboard = ""
 vim.opt.relativenumber = true
 vim.opt.timeoutlen = 200
 vim.o.inccommand = "split"
-vim.opt.cmdheight = 0
+vim.opt.cmdheight = 1
 vim.opt.fillchars = {
   fold = " ",
   eob = " ", -- suppress ~ at EndOfBuffer
@@ -54,35 +84,20 @@ vim.opt.listchars = {
   trail = "•", -- BULLET (U+2022, UTF-8: E2 80 A2)
 }
 
--- LSP
--- disable because we are using lsp_lines
-lvim.lsp.diagnostics.virtual_text = true -- "gl" to show diagnostics for each error when true
-lvim.lsp.automatic_servers_installation = false
-
--- Treesitter
-local languages = vim.tbl_flatten {
-  { "bash", "c", "c_sharp", "cmake", "comment", "cpp", "css", "d", "dart" },
-  { "dockerfile", "elixir", "elm", "erlang", "fennel", "fish", "go" },
-  { "gomod", "graphql", "hcl", "help", "html", "java", "javascript", "jsdoc" },
-  { "json", "jsonc", "julia", "kotlin", "latex", "ledger", "lua", "make" },
-  { "markdown", "nix", "ocaml", "perl", "php", "python", "query", "r" },
-  { "regex", "rego", "ruby", "rust", "scala", "scss", "solidity", "swift" },
-  { "teal", "toml", "tsx", "typescript", "vim", "vue", "yaml", "zig", "prisma" },
+vim.filetype.add {
+  extension = {
+    fnl = "fennel",
+    wiki = "markdown",
+  },
+  filename = {
+    ["go.sum"] = "gosum",
+    ["go.mod"] = "gomod",
+  },
+  pattern = {
+    ["*.tml"] = "gohtmltmpl",
+    ["%.env.*"] = "sh",
+  },
 }
-lvim.builtin.treesitter.ensure_installed = languages
-
-lvim.builtin.global_statusline = true
-lvim.builtin.lualine.sections.lualine_b = { "filename" }
-lvim.builtin.lualine.options.globalstatus = lvim.builtin.global_statusline
-
-lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.autotag.enable = true
-lvim.builtin.project.patterns = { ".git", ".svn" }
-
-vim.cmd [[
-  autocmd FileType harpoon setlocal wrap
-]]
-
 require("user.null_ls").config()
 require("user.builtin").config()
 require("user.bufferline").config()
@@ -92,7 +107,7 @@ require("user.cmp").config()
 lvim.plugins = {
   {
     "rose-pine/neovim",
-    as = "rose-pine",
+    name = "rose-pine",
     config = function()
       require("user.theme").rose_pine()
       vim.cmd [[colorscheme rose-pine]]
@@ -104,8 +119,8 @@ lvim.plugins = {
   },
   {
     "catppuccin/nvim",
-    as = "catppuccin",
-    setup = function()
+    name = "catppuccin",
+    init = function()
       vim.g.catppuccin_flavour = "mocha"
     end,
     config = function()
@@ -146,9 +161,7 @@ lvim.plugins = {
   },
   {
     "bkad/CamelCaseMotion",
-    config = function()
-      vim.g.camelcasemotion_key = ","
-    end,
+    config = function() end,
   },
   -- Add sneak like motion and extends f to show next occurrence
   {
@@ -176,7 +189,7 @@ lvim.plugins = {
   -- todo comments styles
   {
     "folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("user.todo_comments").config()
     end,
@@ -224,7 +237,7 @@ lvim.plugins = {
   },
   {
     "ThePrimeagen/harpoon",
-    requires = {
+    dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-lua/popup.nvim" },
     },
@@ -263,13 +276,13 @@ lvim.plugins = {
   -- better git
   {
     "sindrets/diffview.nvim",
-    requires = "nvim-lua/plenary.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFileHistory" },
   },
   -- a way to open visually selected lines in github
   {
     "ruifm/gitlinker.nvim",
-    requires = "nvim-lua/plenary.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("gitlinker").setup()
     end,
@@ -280,7 +293,7 @@ lvim.plugins = {
     config = function()
       require("user.incline").config()
     end,
-    disable = true,
+    enabled = false,
   },
 
   -- use builtin breadcrumb option
@@ -290,7 +303,7 @@ lvim.plugins = {
       require("user.winb").config()
     end,
     event = { "InsertEnter", "CursorMoved" },
-    disable = true,
+    enabled = false,
   },
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
@@ -333,7 +346,7 @@ lvim.plugins = {
         }
       end, 100)
     end,
-    disable = true,
+    enabled = false,
   },
   {
     "zbirenbaum/copilot-cmp",
@@ -341,7 +354,7 @@ lvim.plugins = {
     config = function()
       require("copilot_cmp").setup()
     end,
-    disable = true,
+    enabled = false,
   },
 
   -- copilot integration
@@ -354,7 +367,6 @@ lvim.plugins = {
   -- better tab, integrates with cmp and copilot
   {
     "abecodes/tabout.nvim",
-    wants = { "nvim-treesitter" },
     after = { "nvim-cmp" },
     config = function()
       require("user.tabout").config()
@@ -373,11 +385,11 @@ lvim.plugins = {
 
   -- better virtual text errors, disable causing busy moving messages
   {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function()
       require("lsp_lines").setup()
     end,
-    disable = true,
+    enabled = false,
   },
   -- better f/F
   {
