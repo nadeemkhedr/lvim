@@ -18,7 +18,6 @@ M.config = function()
       error = kind.icons.error,
     },
   }
-  lvim.builtin.nvimtree.setup.renderer.icons.glyphs = kind.nvim_tree_icons
 
   -- Telescope
   -- =========================================

@@ -1,5 +1,11 @@
 local M = {}
 
+M.mason = {
+  package_pending = " ",
+  package_installed = " ",
+  package_uninstalled = " ﮊ",
+}
+
 M.cmp_kind = {
   Class = " ",
   Color = " ",
@@ -44,7 +50,7 @@ M.icons = {
   settings = " ",
   ls_inactive = "轢",
   ls_active = "歷",
-  question = "",
+  question = " ",
   screen = "冷",
   dart = " ",
   config = " ",
@@ -59,13 +65,16 @@ M.nvim_tree_icons = {
   default = "",
   symlink = "",
   git = {
-    unstaged = "",
-    staged = "",
     unmerged = "",
-    renamed = "➜",
+    added = "",
+    deleted = "",
+    modified = "",
+    renamed = "",
     untracked = "",
-    deleted = "",
-    ignored = "◌",
+    ignored = "",
+    unstaged = "",
+    staged = "",
+    conflict = "",
   },
   folder = {
     arrow_closed = "",
@@ -110,13 +119,14 @@ M.symbols_outline = {
 
 M.todo_comments = {
   FIX = "律",
-  TODO = " ",
+  TODO = "璘",
   HACK = " ",
   WARN = "裂",
   PERF = "龍",
   NOTE = " ",
   ERROR = " ",
   REFS = "",
+  SHIELD = "",
 }
 
 M.numbers = {

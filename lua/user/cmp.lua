@@ -2,8 +2,7 @@ local M = {}
 
 M.config = function()
   local kind = require "user.lsp_icons"
-  -- CMP
-  -- =========================================
+
   lvim.builtin.cmp.sources = {
     { name = "nvim_lsp" },
     { name = "cmp_tabnine", max_item_count = 3 },
@@ -23,6 +22,16 @@ M.config = function()
     native_menu = false,
     custom_menu = true,
   }
+  local cmp_border = {
+    { "╭", "CmpBorder" },
+    { "─", "CmpBorder" },
+    { "╮", "CmpBorder" },
+    { "│", "CmpBorder" },
+    { "╯", "CmpBorder" },
+    { "─", "CmpBorder" },
+    { "╰", "CmpBorder" },
+    { "│", "CmpBorder" },
+  }
   local cmp_sources = {
     ["vim-dadbod-completion"] = "(DadBod)",
     buffer = "(Buffer)",
@@ -31,20 +40,49 @@ M.config = function()
     latex_symbols = "(LaTeX)",
     nvim_lua = "(NvLua)",
   }
-  lvim.builtin.cmp.formatting = {
-    fields = { "kind", "abbr", "menu" },
-    format = function(entry, vim_item)
+  if lvim.builtin.borderless_cmp then
+    vim.opt.pumblend = 4
+    lvim.builtin.cmp.formatting.fields = { "abbr", "kind", "menu" }
+    lvim.builtin.cmp.window = {
+      completion = {
+        border = cmp_border,
+        winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+      },
+      documentation = {
+        border = cmp_border,
+        winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+      },
+    }
+    lvim.builtin.cmp.formatting.format = function(entry, vim_item)
       if entry.source.name == "cmdline" then
-        vim_item.kind = "⌘"
+        vim_item.kind = ""
         vim_item.menu = ""
         return vim_item
       end
-      vim_item.menu = cmp_sources[entry.source.name] or vim_item.kind
-      vim_item.kind = kind.cmp_kind[vim_item.kind] or vim_item.kind
+      vim_item.kind = string.format(
+        "%s %s",
+        kind.cmp_kind[vim_item.kind] or " ",
+        cmp_sources[entry.source.name] or vim_item.kind
+      )
 
       return vim_item
-    end,
-  }
+    end
+  else
+    lvim.builtin.cmp.formatting = {
+      fields = { "kind", "abbr", "menu" },
+      format = function(entry, vim_item)
+        if entry.source.name == "cmdline" then
+          vim_item.kind = "⌘"
+          vim_item.menu = ""
+          return vim_item
+        end
+        vim_item.menu = cmp_sources[entry.source.name] or vim_item.kind
+        vim_item.kind = kind.cmp_kind[vim_item.kind] or vim_item.kind
+
+        return vim_item
+      end,
+    }
+  end
   local cmp_ok, cmp = pcall(require, "cmp")
   if not cmp_ok or cmp == nil then
     cmp = {
@@ -53,13 +91,6 @@ M.config = function()
       config = { sources = function(...) end },
     }
   end
-  cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline {},
-    sources = {
-      { name = "cmdline" },
-      { name = "path" },
-    },
-  })
   cmp.setup.filetype("toml", {
     sources = cmp.config.sources({
       { name = "nvim_lsp", max_item_count = 8 },
@@ -78,7 +109,6 @@ M.config = function()
       { name = "buffer", max_item_count = 5, keyword_length = 5 },
     }),
   })
-
   local function t(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
   end
@@ -91,13 +121,30 @@ M.config = function()
   lvim.keys.insert_mode["<M-\\>"] = { "<Cmd>vertical Copilot panel<CR>", { silent = true } }
   lvim.builtin.cmp.mapping["<Tab>"] = cmp.mapping(M.tab, { "i", "c" })
   lvim.builtin.cmp.mapping["<S-Tab>"] = cmp.mapping(M.shift_tab, { "i", "c" })
-  lvim.builtin.cmp.mapping["<C-Space>"] = cmp.mapping(function()
-    if cmp.visible() then
-      cmp.abort()
-    else
-      cmp.complete()
+
+  -- Comment
+  -- =========================================
+  -- integrate with nvim-ts-context-commentstring
+  lvim.builtin.comment.pre_hook = function(ctx)
+    if not vim.tbl_contains({ "typescript", "typescriptreact" }, vim.bo.ft) then
+      return
     end
-  end, { "i", "c" })
+
+    local comment_utils = require "Comment.utils"
+    local type = ctx.ctype == comment_utils.ctype.line and "__default" or "__multiline"
+
+    local location
+    if ctx.ctype == comment_utils.ctype.block then
+      location = require("ts_context_commentstring.utils").get_cursor_location()
+    elseif ctx.cmotion == comment_utils.cmotion.v or ctx.cmotion == comment_utils.cmotion.V then
+      location = require("ts_context_commentstring.utils").get_visual_start_location()
+    end
+
+    return require("ts_context_commentstring.internal").calculate_commentstring {
+      key = type,
+      location = location,
+    }
+  end
 end
 
 function M.tab(fallback)
