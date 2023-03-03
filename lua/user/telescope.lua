@@ -1,132 +1,189 @@
-local M = {}
+lvim.builtin.telescope.defaults.file_ignore_patterns = {
+  ".git/",
+  "target/",
+  "docs/",
+  "vendor/*",
+  "%.lock",
+  "__pycache__/*",
+  "%.sqlite3",
+  "%.ipynb",
+  "node_modules/*",
+  -- "%.jpg",
+  -- "%.jpeg",
+  -- "%.png",
+  "%.svg",
+  "%.otf",
+  "%.ttf",
+  "%.webp",
+  ".dart_tool/",
+  ".github/",
+  ".gradle/",
+  ".idea/",
+  ".settings/",
+  ".vscode/",
+  "__pycache__/",
+  "build/",
+  "env/",
+  "gradle/",
+  "node_modules/",
+  "%.pdb",
+  "%.dll",
+  "%.class",
+  "%.exe",
+  "%.cache",
+  "%.ico",
+  "%.pdf",
+  "%.dylib",
+  "%.jar",
+  "%.docx",
+  "%.met",
+  "smalljre_*/*",
+  ".vale/",
+  "%.burp",
+  "%.mp4",
+  "%.mkv",
+  "%.rar",
+  "%.zip",
+  "%.7z",
+  "%.tar",
+  "%.bz2",
+  "%.epub",
+  "%.flac",
+  "%.tar.gz",
+}
+local _, actions = pcall(require, "telescope.actions")
+lvim.builtin.telescope.defaults.mappings = {
+  -- for input mode
+  i = {
+    ["<C-n>"] = actions.cycle_history_next,
+    ["<C-p>"] = actions.cycle_history_prev,
 
-local builtin = require "telescope.builtin"
-local themes = require "telescope.themes"
+    ["<C-j>"] = actions.move_selection_next,
+    ["<C-k>"] = actions.move_selection_previous,
 
-function M.git_status()
-  local opts = themes.get_dropdown {
-    winblend = 10,
-    previewer = false,
-    shorten_path = false,
-    borderchars = {
-      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    },
-    border = {},
-    layout_config = {
-      width = 0.45,
-      prompt_position = "top",
-    },
-  }
-  -- Can change the git icons using this.
-  -- opts.git_icons = {
-  --   changed = "M"
-  -- }
+    ["<C-b>"] = actions.results_scrolling_up,
+    ["<C-f>"] = actions.results_scrolling_down,
 
-  builtin.git_status(opts)
-end
+    ["<C-c>"] = actions.close,
 
-function M.git_files()
-  local path = vim.fn.expand "%:h"
-  if path == "" then
-    path = nil
-  end
+    ["<Down>"] = actions.move_selection_next,
+    ["<Up>"] = actions.move_selection_previous,
 
-  local width = 0.45
-  if path and string.find(path, "sourcegraph.*sourcegraph", 1, false) then
-    width = 0.6
-  end
+    ["<CR>"] = actions.select_default,
+    ["<C-s>"] = actions.select_horizontal,
+    ["<C-v>"] = actions.select_vertical,
+    ["<C-t>"] = actions.select_tab,
 
-  local opts = themes.get_dropdown {
-    winblend = 5,
-    previewer = false,
-    shorten_path = false,
-    borderchars = {
-      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    },
-    border = {},
-    cwd = path,
-    layout_config = {
-      width = width,
-      prompt_position = "top",
-    },
-  }
+    ["<c-d>"] = require("telescope.actions").delete_buffer,
 
-  opts.file_ignore_patterns = {
-    "^[.]vale/",
-  }
-  builtin.git_files(opts)
-end
+    -- ["<C-u>"] = actions.preview_scrolling_up,
+    -- ["<C-d>"] = actions.preview_scrolling_down,
 
-function M.grep_string_visual()
-  local visual_selection = function()
-    local save_previous = vim.fn.getreg "a"
-    vim.api.nvim_command 'silent! normal! "ay'
-    local selection = vim.fn.trim(vim.fn.getreg "a")
-    vim.fn.setreg("a", save_previous)
-    return vim.fn.substitute(selection, [[\n]], [[\\n]], "g")
-  end
-  require("telescope.builtin").live_grep {
-    default_text = visual_selection(),
-  }
-end
+    -- ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+    ["<Tab>"] = actions.close,
+    ["<S-Tab>"] = actions.close,
+    -- ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+    ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+    ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+    ["<C-l>"] = actions.complete_tag,
+    ["<C-h>"] = actions.which_key, -- keys from pressing <C-h>
+    ["<esc>"] = actions.close,
+  },
+  -- for normal mode
+  n = {
+    ["<esc>"] = actions.close,
+    ["<CR>"] = actions.select_default,
+    ["<C-x>"] = actions.select_horizontal,
+    ["<C-v>"] = actions.select_vertical,
+    ["<C-t>"] = actions.select_tab,
+    ["<C-b>"] = actions.results_scrolling_up,
+    ["<C-f>"] = actions.results_scrolling_down,
 
--- show refrences to this using language server
-function M.lsp_references()
-  local opts = {
-    layout_strategy = "vertical",
-    layout_config = {
-      prompt_position = "top",
-    },
-    sorting_strategy = "ascending",
-    ignore_filename = false,
-  }
-  builtin.lsp_references(opts)
-end
+    ["<Tab>"] = actions.close,
+    ["<S-Tab>"] = actions.close,
+    -- ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+    -- ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+    ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+    ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 
-M.work_studio_fe = function()
-  builtin.find_files {
-    cwd = "~/work/screencastify/screencastify",
-    search_dirs = {
-      "deployments/client/studio",
-      "lib/studio",
-    },
-  }
-end
+    ["j"] = actions.move_selection_next,
+    ["k"] = actions.move_selection_previous,
+    ["H"] = actions.move_to_top,
+    ["M"] = actions.move_to_middle,
+    ["L"] = actions.move_to_bottom,
+    ["q"] = actions.close,
+    ["dd"] = require("telescope.actions").delete_buffer,
+    ["s"] = actions.select_horizontal,
+    ["v"] = actions.select_vertical,
+    ["t"] = actions.select_tab,
 
-M.work_studio_be = function()
-  builtin.find_files {
-    cwd = "~/work/screencastify/screencastify",
-    search_dirs = {
-      "deployments/http/studio-backend",
-      "deployments/http/graphql-engine",
-      "lib/studio",
-    },
-  }
-end
+    ["<Down>"] = actions.move_selection_next,
+    ["<Up>"] = actions.move_selection_previous,
+    ["gg"] = actions.move_to_top,
+    ["G"] = actions.move_to_bottom,
 
-M.work_studio_fe_search = function()
-  builtin.live_grep {
-    cwd = "~/work/screencastify/screencastify",
-    search_dirs = {
-      "deployments/client/studio",
-      "lib/studio",
-    },
-  }
-end
+    ["<C-u>"] = actions.preview_scrolling_up,
+    ["<C-d>"] = actions.preview_scrolling_down,
 
-M.work_studio_be_search = function()
-  builtin.live_grep {
-    cwd = "~/work/screencastify/screencastify",
-    search_dirs = {
-      "deployments/http/studio-backend",
-      "deployments/http/graphql-engine",
-      "lib/studio",
-    },
-  }
-end
+    ["<PageUp>"] = actions.results_scrolling_up,
+    ["<PageDown>"] = actions.results_scrolling_down,
 
-return M
+    ["?"] = actions.which_key,
+  },
+}
+
+lvim.builtin.telescope.pickers.live_grep = {
+  theme = "dropdown",
+}
+
+lvim.builtin.telescope.pickers.grep_string = {
+  theme = "dropdown",
+}
+
+lvim.builtin.telescope.pickers.find_files = {
+  theme = "dropdown",
+  previewer = false,
+}
+
+lvim.builtin.telescope.pickers.buffers = {
+  theme = "dropdown",
+  previewer = false,
+  initial_mode = "normal",
+}
+
+lvim.builtin.telescope.pickers.planets = {
+  show_pluto = true,
+  show_moon = true,
+}
+
+lvim.builtin.telescope.pickers.colorscheme = {
+  enable_preview = true,
+}
+
+lvim.builtin.telescope.pickers.lsp_references = {
+  theme = "dropdown",
+  initial_mode = "normal",
+}
+
+lvim.builtin.telescope.pickers.lsp_definitions = {
+  theme = "dropdown",
+  initial_mode = "normal",
+}
+
+lvim.builtin.telescope.pickers.lsp_declarations = {
+  theme = "dropdown",
+  initial_mode = "normal",
+}
+
+lvim.builtin.telescope.pickers.lsp_implementations = {
+  theme = "dropdown",
+  initial_mode = "normal",
+}
+
+require("telescope-tabs").setup {
+  show_preview = false,
+  close_tab_shortcut = "C-d",
+  initial_mode = "normal",
+  theme = "dropdown",
+  -- Your custom config :^)
+}
