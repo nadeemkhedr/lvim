@@ -39,7 +39,8 @@ luac.out
 *.x86_64
 *.hex
 
-# LunarVim
-plugin/
 
-spell/en.utf-8.add.spl
+java
+
+plugin/packer_compiled.lua
+lazy-lock.json

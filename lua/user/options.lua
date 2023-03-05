@@ -5,13 +5,10 @@ lvim.lsp.diagnostics.float.focusable = true
 lvim.reload_config_on_save = false
 lvim.builtin.illuminate.active = false
 lvim.builtin.bufferline.active = false
--- lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
--- lvim.builtin.nvimtree.setup.view.mappings.custom_only = true
 lvim.builtin.breadcrumbs.active = true
--- lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.dap.active = true
 lvim.keys.term_mode = { ["<C-l>"] = false }
 -- lvim.builtin.cmp.cmdline.enable = false
@@ -47,6 +44,7 @@ lvim.keys.term_mode = { ["<C-l>"] = false }
 vim.opt.showtabline = 0
 
 local options = {
+  inccommand = "split", -- %s will show in a split
   backup = false, -- creates a backup file
   clipboard = "unnamedplus", -- allows neovim to access the system clipboard
   cmdheight = 1, -- more space in the neovim command line for displaying messages
@@ -85,14 +83,8 @@ local options = {
   sidescrolloff = 8,
   guifont = "monospace:h17", -- the font used in graphical neovim applications
   title = true,
-  -- colorcolumn = "80",
-  -- colorcolumn = "120",
+  colorcolumn = "80",
 }
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
--- vim.opt.fillchars.eob = " "
--- vim.opt.fillchars = vim.opt.fillchars + "vertleft: "
--- vim.opt.fillchars = vim.opt.fillchars + "vertright: "
 vim.opt.fillchars = vim.opt.fillchars + "eob: "
 vim.opt.fillchars:append {
   stl = " ",
@@ -110,7 +102,16 @@ vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
 
 vim.filetype.add {
   extension = {
-    conf = "dosini",
+    fnl = "fennel",
+    wiki = "markdown",
+  },
+  filename = {
+    ["go.sum"] = "gosum",
+    ["go.mod"] = "gomod",
+  },
+  pattern = {
+    ["*.tml"] = "gohtmltmpl",
+    ["%.env.*"] = "sh",
   },
 }
 
