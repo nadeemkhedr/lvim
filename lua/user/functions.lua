@@ -71,4 +71,21 @@ function M.smart_quit()
   end
 end
 
+function M.toggle_vtext()
+  local c = vim.diagnostic.config()
+  if c and c.virtual_text then
+    vim.diagnostic.config { virtual_text = false }
+  else
+    vim.diagnostic.config { virtual_text = lvim.lsp.diagnostics.virtual_text }
+  end
+end
+
+function M.toggle_relative_number()
+  if vim.wo.relativenumber then
+    vim.wo.relativenumber = false
+  else
+    vim.wo.relativenumber = true
+  end
+end
+
 return M

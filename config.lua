@@ -1,7 +1,6 @@
 lvim.plugins = {
   "ellisonleao/gruvbox.nvim",
   "LunarVim/synthwave84.nvim",
-  "roobert/tailwindcss-colorizer-cmp.nvim",
   "lunarvim/github.nvim",
   "nvim-treesitter/playground",
   "nvim-treesitter/nvim-treesitter-textobjects",
@@ -14,6 +13,7 @@ lvim.plugins = {
   "kylechui/nvim-surround",
   "christianchiarulli/harpoon",
   "MattesGroeger/vim-bookmarks",
+  "roobert/tailwindcss-colorizer-cmp.nvim",
   "NvChad/nvim-colorizer.lua",
   "ghillb/cybu.nvim",
   "moll/vim-bbye",
@@ -43,19 +43,6 @@ lvim.plugins = {
   "petertriho/nvim-scrollbar",
   "renerocksai/telekasten.nvim",
   -- "renerocksai/calendar-vim",
-  {
-    "saecki/crates.nvim",
-    version = "v0.3.0",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("crates").setup {
-        null_ls = {
-          enabled = true,
-          name = "crates.nvim",
-        },
-      }
-    end,
-  },
   "MunifTanjim/nui.nvim",
   "jackMort/ChatGPT.nvim",
   {

@@ -11,19 +11,28 @@ keymap("n", "<C-i>", "<C-i>", opts)
 
 -- Normal --
 -- Better window navigation
-keymap("n", "<m-h>", "<C-w>h", opts)
-keymap("n", "<m-j>", "<C-w>j", opts)
-keymap("n", "<m-k>", "<C-w>k", opts)
-keymap("n", "<m-l>", "<C-w>l", opts)
-keymap("n", "<m-tab>", "<c-6>", opts)
+keymap("n", "<c-h>", "<C-w>h", opts)
+keymap("n", "<c-j>", "<C-w>j", opts)
+keymap("n", "<c-k>", "<C-w>k", opts)
+keymap("n", "<c-l>", "<C-w>l", opts)
 
+keymap("n", "<m-j>", "<c-d>", opts)
+keymap("n", "<m-k>", "<c-u>", opts)
+
+-- Easy colon, shift not needed
+keymap("n", ";", ":", opts)
+keymap("n", ":", ";", opts)
+keymap("v", ";", ":", opts)
+keymap("v", ":", ";", opts)
+
+-- terminal stuff
+lvim.builtin.terminal.open_mapping = "<C-t>"
 function _G.set_terminal_keymaps()
   vim.api.nvim_buf_set_keymap(0, "t", "<m-h>", [[<C-\><C-n><C-W>h]], opts)
   vim.api.nvim_buf_set_keymap(0, "t", "<m-j>", [[<C-\><C-n><C-W>j]], opts)
   vim.api.nvim_buf_set_keymap(0, "t", "<m-k>", [[<C-\><C-n><C-W>k]], opts)
   vim.api.nvim_buf_set_keymap(0, "t", "<m-l>", [[<C-\><C-n><C-W>l]], opts)
 end
-
 vim.cmd "autocmd! TermOpen term://* lua set_terminal_keymaps()"
 
 -- Tabs --
@@ -37,10 +46,8 @@ keymap("n", "<C-Up>", ":resize -2<CR>", opts)
 keymap("n", "<C-Down>", ":resize +2<CR>", opts)
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
-
-keymap("n", "<c-j>", "<c-d>", opts)
-keymap("n", "<c-k>", "<c-u>", opts)
 keymap("n", "<c-m>", "<s-m>", opts)
+
 
 keymap("n", "n", "nzz", opts)
 keymap("n", "N", "Nzz", opts)
@@ -99,7 +106,7 @@ vim.cmd [[
   endfunction
 ]]
 
-keymap("n", "<m-q>", ":call QuickFixToggle()<cr>", opts)
+keymap("n", "<c-q>", ":call QuickFixToggle()<cr>", opts)
 
 M.show_documentation = function()
   local filetype = vim.bo.filetype
@@ -113,6 +120,6 @@ M.show_documentation = function()
     vim.lsp.buf.hover()
   end
 end
-vim.api.nvim_set_keymap("n", "K", ":lua require('user.keymaps').show_documentation()<CR>", opts)
 
-return M
+
+vim.api.nvim_set_keymap("n", "K", ":lua require('user.keymaps').show_documentation()<CR>", opts)

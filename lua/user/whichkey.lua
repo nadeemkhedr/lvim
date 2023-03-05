@@ -5,6 +5,21 @@ lvim.builtin.which_key.mappings["q"] = { '<cmd>lua require("user.functions").sma
 lvim.builtin.which_key.mappings["/"] = { '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', "Comment" }
 -- lvim.builtin.which_key.mappings["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" }
 lvim.builtin.which_key.mappings["gy"] = "Link"
+
+lvim.builtin.which_key.mappings["a"] = {
+  name = "+Actions",
+  a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", " Add Mark" },
+  l = { "<cmd>IndentBlanklineToggle<cr>", "Toggle Indent line" },
+  i = { "<cmd>lua require('user.functions').toggle_vtext()<cr>", "Toggle virtual text" },
+  m = {
+    "<cmd>lua require('lsp_lines').toggle()<cr>",
+    "識LSP Lines",
+  },
+  n = {
+    "<cmd>lua require('user.functions').toggle_relative_number()<cr>",
+    "Toggle rel-line numbers",
+  },
+}
 lvim.builtin.which_key.mappings["r"] = {
   name = "Replace",
   r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
@@ -159,12 +174,12 @@ lvim.builtin.which_key.mappings["s"] = nil
 lvim.builtin.which_key.mappings["w"] = nil
 
 local m_opts = {
-  mode = "n", -- NORMAL mode
+  mode = "n",     -- NORMAL mode
   prefix = "m",
-  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-  silent = true, -- use `silent` when creating keymaps
+  buffer = nil,   -- Global mappings. Specify a buffer number for buffer local mappings
+  silent = true,  -- use `silent` when creating keymaps
   noremap = true, -- use `noremap` when creating keymaps
-  nowait = true, -- use `nowait` when creating keymaps
+  nowait = true,  -- use `nowait` when creating keymaps
 }
 
 local status_ok, which_key = pcall(require, "which-key")
@@ -177,8 +192,8 @@ local m_mappings = {
   c = { "<cmd>silent BookmarkClear<cr>", "Clear" },
   b = { "<cmd>silent BookmarkToggle<cr>", "Toggle" },
   m = { '<cmd>lua require("harpoon.mark").add_file()<cr>', "Harpoon" },
-  ["."] = { '<cmd>lua require("harpoon.ui").nav_next()<cr>', "Harpoon Next" },
-  [","] = { '<cmd>lua require("harpoon.ui").nav_prev()<cr>', "Harpoon Prev" },
+      ["."] = { '<cmd>lua require("harpoon.ui").nav_next()<cr>', "Harpoon Next" },
+      [","] = { '<cmd>lua require("harpoon.ui").nav_prev()<cr>', "Harpoon Prev" },
   l = { "<cmd>lua require('user.bfs').open()<cr>", "Buffers" },
   j = { "<cmd>silent BookmarkNext<cr>", "Next" },
   s = { "<cmd>Telescope harpoon marks<cr>", "Search Files" },
@@ -189,7 +204,8 @@ local m_mappings = {
   --   "Show",
   -- },
   x = { "<cmd>BookmarkClearAll<cr>", "Clear All" },
-  [";"] = { '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', "Harpoon UI" },
+      [";"] = { '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', "Harpoon UI" },
 }
 
 which_key.register(m_mappings, m_opts)
+
