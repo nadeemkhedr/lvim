@@ -1,32 +1,69 @@
-require "user.lsp.languages.rust"
-require "user.lsp.languages.go"
-require "user.lsp.languages.python"
-require "user.lsp.languages.js-ts"
-require "user.lsp.languages.sh"
-require "user.lsp.languages.emmet"
-require "user.lsp.languages.css"
+local M = {}
 
-lvim.lsp.diagnostics.virtual_text = false
+M.config = function()
+  -- NOTE: By default, all null-ls providers are checked on startup.
+  -- If you want to avoid that or want to only set up the provider
+  -- when you opening the associated file-type,
+  -- then you can use filetype plugins for this purpose.
+  -- https://www.lunarvim.org/languages/#lazy-loading-the-formatter-setup
+  local status_ok, nls = pcall(require, "null-ls")
+  if not status_ok then
+    return
+  end
 
--- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.ensure_installed = {
-  "java",
-}
+  local sources = {
+    nls.builtins.formatting.prettierd.with {
+      condition = function(utils)
+        return utils.root_has_file { ".prettierrc.json" }
+      end,
+      prefer_local = "node_modules/.bin",
+    },
+    nls.builtins.diagnostics.eslint_d.with {
+      condition = function(utils)
+        return utils.root_has_file { ".eslintrc", ".eslintrc.js", ".eslintrc.json" }
+      end,
+      prefer_local = "node_modules/.bin",
+    },
+    nls.builtins.code_actions.eslint_d.with {
+      condition = function(utils)
+        return utils.root_has_file { ".eslintrc", ".eslintrc.js", ".eslintrc.json" }
+      end,
+      prefer_local = "node_modules/.bin",
+    },
+    nls.builtins.formatting.stylua,                                           -- lua format
+    nls.builtins.diagnostics.luacheck,                                        -- lua lint
 
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
+    nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-ci" } }, -- shell fmt
+    nls.builtins.diagnostics.shellcheck,                                      -- shell lint
+    nls.builtins.code_actions.shellcheck,                                     -- shell code actions
 
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-  { command = "google_java_format", filetypes = { "java" } },
-  { command = "stylua", filetypes = { "lua" } },
-  { command = "shfmt", filetypes = { "sh", "zsh" } },
-  { command = "prettier", filetypes = { "css" } },
-}
+    nls.builtins.diagnostics.markdownlint.with {
+      filetypes = { "markdown" },
+    },
+    nls.builtins.formatting.goimports,          -- go fmt
+    nls.builtins.diagnostics.sqlfluff.with {
+      extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    },
+    nls.builtins.formatting.sqlfluff.with {
+      extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    },
+    nls.builtins.formatting.terraform_fmt,      -- terraform fmt
+    nls.builtins.diagnostics.hadolint,          -- dockerlint
+    nls.builtins.formatting.cljstyle,           -- clojure formatter for karabiner edn files
+    nls.builtins.hover.dictionary,
+  }
 
--- lvim.lsp.on_attach_callback = function(client, bufnr)
--- end
+  local ts_found, typescript_code_actions = pcall(require, "typescript.extensions.null-ls.code-actions")
+  if ts_found then
+    table.insert(sources, typescript_code_actions)
+  end
 
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   { command = "eslint_d", filetypes = { "javascript" } },
--- }
+  -- you can either config null-ls itself
+  nls.setup {
+    debounce = 150,
+    save_after_format = false,
+    sources = sources,
+  }
+end
+
+M.config()
