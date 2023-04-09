@@ -1,3 +1,35 @@
+  lvim.builtin.telescope.defaults.path_display = {} -- display full path
+
+  lvim.builtin.telescope.defaults.dynamic_preview_title = true
+  lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
+
+  lvim.builtin.telescope.defaults.preview = {
+    hide_on_startup = true,
+  }
+
+  lvim.builtin.telescope.defaults.layout_config = {
+    width = 0.90,
+    height = 0.85,
+    preview_cutoff = 120,
+    prompt_position = "bottom",
+    horizontal = {
+      preview_width = function(_, cols, _)
+        return math.floor(cols * 0.6)
+      end,
+    },
+    vertical = {
+      width = 0.9,
+      height = 0.95,
+      preview_height = 0.5,
+    },
+
+    flex = {
+      horizontal = {
+        preview_width = 0.9,
+      },
+    },
+  }
+
 lvim.builtin.telescope.defaults.file_ignore_patterns = {
   ".git/",
   "target/",
@@ -80,7 +112,7 @@ lvim.builtin.telescope.defaults.mappings = {
     -- ["<C-d>"] = actions.preview_scrolling_down,
 
     -- ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
-    ["<Tab>"] = actions.close,
+    ["<tab>"] = require("telescope.actions.layout").toggle_preview,
     ["<S-Tab>"] = actions.close,
     -- ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
     ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
@@ -130,25 +162,6 @@ lvim.builtin.telescope.defaults.mappings = {
 
     ["?"] = actions.which_key,
   },
-}
-
-lvim.builtin.telescope.pickers.live_grep = {
-  theme = "dropdown",
-}
-
-lvim.builtin.telescope.pickers.grep_string = {
-  theme = "dropdown",
-}
-
-lvim.builtin.telescope.pickers.find_files = {
-  theme = "dropdown",
-  previewer = false,
-}
-
-lvim.builtin.telescope.pickers.buffers = {
-  theme = "dropdown",
-  previewer = false,
-  initial_mode = "normal",
 }
 
 lvim.builtin.telescope.pickers.planets = {

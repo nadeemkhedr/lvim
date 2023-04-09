@@ -4,34 +4,15 @@ lvim.builtin.which_key.mappings["h"] = { "<cmd>nohlsearch<cr>", "nohl" }
 lvim.builtin.which_key.mappings["q"] = { '<cmd>lua require("user.functions").smart_quit()<CR>', "Quit" }
 lvim.builtin.which_key.mappings["/"] = { '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', "Comment" }
 -- lvim.builtin.which_key.mappings["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" }
-lvim.builtin.which_key.mappings["gy"] = "Link"
+-- lvim.builtin.which_key.mappings["gy"] = "Link"
 
-lvim.builtin.which_key.mappings["a"] = {
-  name = "+Actions",
-  a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", " Add Mark" },
-  l = { "<cmd>IndentBlanklineToggle<cr>", "Toggle Indent line" },
-  i = { "<cmd>lua require('user.functions').toggle_vtext()<cr>", "Toggle virtual text" },
-  m = {
-    "<cmd>lua require('lsp_lines').toggle()<cr>",
-    "識LSP Lines",
-  },
-  n = {
-    "<cmd>lua require('user.functions').toggle_relative_number()<cr>",
-    "Toggle rel-line numbers",
-  },
-}
+lvim.builtin.which_key.mappings["<leader>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", " Harpoon" }
+
 lvim.builtin.which_key.mappings["r"] = {
   name = "Replace",
   r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
   w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
   f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Replace Buffer" },
-}
-lvim.builtin.which_key.mappings["c"] = {
-  name = "ChatGPT",
-  c = { "<cmd>ChatGPT<cr>", "Chat" },
-  a = { "<cmd>ChatGPTActAs<cr>", "Act As" },
-  e = { "<cmd>ChatGPTEditWithInstructions<cr>", "Edit" },
-  r = { "<cmd>ChatRunCustomCodeAction<cr>", "Code Action" },
 }
 lvim.builtin.which_key.mappings["d"] = {
   name = "Debug",
@@ -149,6 +130,17 @@ lvim.builtin.which_key.mappings["o"] = {
   name = "Options",
   c = { "<cmd>lua lvim.builtin.cmp.active = false<cr>", "Completion off" },
   C = { "<cmd>lua lvim.builtin.cmp.active = true<cr>", "Completion on" },
+  a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", " Add Mark" },
+  l = { "<cmd>IndentBlanklineToggle<cr>", "Toggle Indent line" },
+  i = { "<cmd>lua require('user.functions').toggle_vtext()<cr>", "Toggle virtual text" },
+  m = {
+    "<cmd>lua require('lsp_lines').toggle()<cr>",
+    "識LSP Lines",
+  },
+  n = {
+    "<cmd>lua require('user.functions').toggle_relative_number()<cr>",
+    "Toggle rel-line numbers",
+  },
   -- w = { '<cmd>lua require("user.functions").toggle_option("wrap")<cr>', "Wrap" },
   -- r = { '<cmd>lua require("user.functions").toggle_option("relativenumber")<cr>', "Relative" },
   -- l = { '<cmd>lua require("user.functions").toggle_option("cursorline")<cr>', "Cursorline" },
@@ -208,4 +200,3 @@ local m_mappings = {
 }
 
 which_key.register(m_mappings, m_opts)
-

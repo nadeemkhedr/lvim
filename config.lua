@@ -11,7 +11,7 @@ lvim.plugins = {
   "j-hui/fidget.nvim",
   "christianchiarulli/nvim-ts-autotag",
   "kylechui/nvim-surround",
-  "christianchiarulli/harpoon",
+  "ThePrimeagen/harpoon",
   "MattesGroeger/vim-bookmarks",
   "roobert/tailwindcss-colorizer-cmp.nvim",
   "NvChad/nvim-colorizer.lua",
@@ -44,7 +44,6 @@ lvim.plugins = {
   "renerocksai/telekasten.nvim",
   -- "renerocksai/calendar-vim",
   "MunifTanjim/nui.nvim",
-  "jackMort/ChatGPT.nvim",
   {
     "jinh0/eyeliner.nvim",
     config = function()
@@ -85,11 +84,11 @@ lvim.plugins = {
 }
 
 reload "user.options"
-reload "user.keymaps"
+reload "user.mappings"
 reload "user.autocommands"
 reload "user.lsp"
 reload "user.smoothie"
-reload "user.harpoon"
+-- reload "user.harpoon"
 reload "user.cybu"
 reload "user.surround"
 reload "user.bookmark"
@@ -99,7 +98,7 @@ reload "user.fidget"
 reload "user.lab"
 reload "user.git"
 reload "user.zen-mode"
-reload "user.inlay-hints"
+-- reload "user.inlay-hints"
 reload "user.telescope"
 reload "user.bqf"
 reload "user.dial"
