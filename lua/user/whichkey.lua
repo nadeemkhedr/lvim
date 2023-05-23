@@ -1,10 +1,11 @@
+lvim.builtin.which_key.setup.ignore_missing = true
+
+lvim.builtin.which_key.mappings["gy"] = "Link"
 lvim.builtin.which_key.mappings["b"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
 lvim.builtin.which_key.mappings["v"] = { "<cmd>vsplit<cr>", "vsplit" }
 lvim.builtin.which_key.mappings["h"] = { "<cmd>nohlsearch<cr>", "nohl" }
 lvim.builtin.which_key.mappings["q"] = { '<cmd>lua require("user.functions").smart_quit()<CR>', "Quit" }
 lvim.builtin.which_key.mappings["/"] = { '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', "Comment" }
--- lvim.builtin.which_key.mappings["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" }
--- lvim.builtin.which_key.mappings["gy"] = "Link"
 
 lvim.builtin.which_key.mappings["<leader>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", " Harpoon" }
 
@@ -43,6 +44,7 @@ lvim.builtin.which_key.mappings["f"] = {
   k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
   C = { "<cmd>Telescope commands<cr>", "Commands" },
 }
+lvim.builtin.which_key.vmappings["gy"] = { "<cmd>lua require('gitlinker').get_buf_range_url('v')<cr>", "Link" }
 lvim.builtin.which_key.mappings["g"] = {
   name = "Git",
   -- g = { "<cmd>lua require 'lvim.core.terminal'.lazygit_toggle(12000)<cr>", "Lazygit" },
@@ -66,6 +68,10 @@ lvim.builtin.which_key.mappings["g"] = {
   d = {
     "<cmd>Gitsigns diffthis HEAD<cr>",
     "Diff",
+  },
+  y = {
+    "<cmd>lua require('gitlinker').get_buf_range_url('n')<cr>",
+    "Link",
   },
   G = {
     name = "Gist",
