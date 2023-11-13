@@ -11,8 +11,16 @@ local opts = {
         upgrade_dependency = true, -- Upgrades a dependency in the go.mod file for a module
         vendor = true, -- Runs go mod vendor for a module
       },
+      hints = {
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableTypes = true,
+      },
       diagnosticsDelay = "300ms",
-      experimentalWatchedFileDelay = "100ms",
       symbolMatcher = "fuzzy",
       completeUnimported = true,
       staticcheck = true,
@@ -27,6 +35,10 @@ local opts = {
       },
     },
   },
+  on_attach = function(client, bufnr)
+    require("lvim.lsp").common_on_attach(client, bufnr)
+    local _, _ = pcall(vim.lsp.codelens.refresh)
+  end,
 }
 
 require("lvim.lsp.manager").setup("gopls", opts)
