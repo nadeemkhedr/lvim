@@ -31,7 +31,7 @@ M.config = function()
       prefer_local = "node_modules/.bin",
     },
     nls.builtins.formatting.stylua,                                           -- lua format
-    nls.builtins.diagnostics.luacheck,                                        -- lua lint
+    -- nls.builtins.diagnostics.luacheck,                                        -- lua lint
 
     nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-ci" } }, -- shell fmt
     nls.builtins.diagnostics.shellcheck,                                      -- shell lint

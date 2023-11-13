@@ -8,7 +8,10 @@ lvim.plugins = {
   "mfussenegger/nvim-jdtls",
   -- "karb94/neoscroll.nvim",
   "opalmay/vim-smoothie",
-  "j-hui/fidget.nvim",
+  {
+    "j-hui/fidget.nvim",
+    branch = "legacy",
+  },
   "christianchiarulli/nvim-ts-autotag",
   "kylechui/nvim-surround",
   "ThePrimeagen/harpoon",
@@ -24,7 +27,7 @@ lvim.plugins = {
   "mattn/vim-gist",
   "mattn/webapi-vim",
   "folke/zen-mode.nvim",
-  "lvimuser/lsp-inlayhints.nvim",
+  -- "lvimuser/lsp-inlayhints.nvim",
   "lunarvim/darkplus.nvim",
   "lunarvim/templeos.nvim",
   "kevinhwang91/nvim-bqf",
@@ -32,7 +35,7 @@ lvim.plugins = {
   -- "hrsh7th/cmp-emoji",
   "ggandor/leap.nvim",
   "nacro90/numb.nvim",
-  "TimUntersberger/neogit",
+  "neogitorg/neogit",
   "sindrets/diffview.nvim",
   "simrat39/rust-tools.nvim",
   "olexsmir/gopher.nvim",
@@ -58,29 +61,32 @@ lvim.plugins = {
     "0x100101/lab.nvim",
     build = "cd js && npm ci",
   },
+  -- github copilot like but free
+  "Exafunction/codeium.vim",
+
   -- { "tzachar/cmp-tabnine", build = "./install.sh" },
-  {
-    "zbirenbaum/copilot.lua",
-    -- event = { "VimEnter" },
-    config = function()
-      vim.defer_fn(function()
-        require("copilot").setup {
-          plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
-        }
-      end, 100)
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup {
-        formatters = {
-          insert_text = require("copilot_cmp.format").remove_existing,
-        },
-      }
-    end,
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   -- event = { "VimEnter" },
+  --   config = function()
+  --     vim.defer_fn(function()
+  --       require("copilot").setup {
+  --         plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
+  --       }
+  --     end, 100)
+  --   end,
+  -- },
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   after = { "copilot.lua" },
+  --   config = function()
+  --     require("copilot_cmp").setup {
+  --       formatters = {
+  --         insert_text = require("copilot_cmp.format").remove_existing,
+  --       },
+  --     }
+  --   end,
+  -- },
 }
 
 reload "user.options"

@@ -1,7 +1,7 @@
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "goimports", filetypes = { "go" } },
-  { command = "gofumpt", filetypes = { "go" } },
+  { command = "gofumpt",   filetypes = { "go" } },
 }
 
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "gopls" })
@@ -23,6 +23,15 @@ lsp_manager.setup("gopls", {
     gopls = {
       usePlaceholders = true,
       gofumpt = true,
+      hints = {
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableTypes = true,
+      },
       codelenses = {
         generate = false,
         gc_details = true,
