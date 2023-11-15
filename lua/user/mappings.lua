@@ -15,6 +15,8 @@ keymap("n", "<c-h>", "<C-w>h", opts)
 keymap("n", "<c-j>", "<C-w>j", opts)
 keymap("n", "<c-k>", "<C-w>k", opts)
 keymap("n", "<c-l>", "<C-w>l", opts)
+-- codeium shortcut to mainly work with cmp
+keymap('i', '<C-h>', function () return vim.fn['codeium#Accept']() end, { expr = true })
 
 keymap("n", "<m-j>", "<c-d>", opts)
 keymap("n", "<m-k>", "<c-u>", opts)
